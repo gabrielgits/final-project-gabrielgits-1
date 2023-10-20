@@ -1,5 +1,4 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 import FoodList from '../components/Foods/FoodList';
 import AddFood from '../components/Foods/AddFood';
 import EditFood from '../components/Foods/EditFood';
