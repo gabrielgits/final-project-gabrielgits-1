@@ -7,8 +7,6 @@ export default function FoodDetails() {
     const route = useRoute();
     const { food } = route.params;
 
-    console.log(food)
-
     return (
         <View style={styles.container}>
             <View style={styles.infoHeader}>

@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import { SafeAreaView, FlatList, Pressable, Text, View, TextInput } from 'react-native';
 import styles from '../../styles/appStyles';
 import Food from './Food';
+import { useNavigation } from '@react-navigation/native';
 
 export default function FoodList() {
     const [searchText, setSearchText] = useState('');
     const [foods, setFood] = useState([]);
-    const [refresh, setRefresh] = useState(false);
+    const [refresh, setRefresh] = useState(false); //handle Food list refresh by this state change
+    const navigation = useNavigation();
 
     const onRefresh = () => {
         setRefresh(!refresh)
@@ -16,18 +18,20 @@ export default function FoodList() {
     useEffect(() => {
         try {
             async function getData() {
-                const ret = await getFoodList()
-                setFood(ret);
+                const ret = await getFoodList();
+                if (ret && ret.success) {
+                    setFood(ret.data);
+                }
             }
             getData()
 
         } catch (error) {
 
         }
-    }, [])
+    }, [refresh])
 
     const handleAddFood = () => {
-
+        navigation.navigate('addfood', { onRefresh })
     }
 
     return (

@@ -26,6 +26,10 @@ const styles = StyleSheet.create({
   info: {
     marginTop: 20,
   },
+  errorMsg: {
+    fontSize: 24,
+    color: 'red'
+  },
   name: {
     fontSize: 24,
   },
@@ -85,6 +89,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 4,
+  },
+  title: {
+    padding: 30,
+    fontSize: 30,
+    textAlign: 'center',
+    color: '#0066CC',
+    fontWeight: '300',
   },
 });
 
