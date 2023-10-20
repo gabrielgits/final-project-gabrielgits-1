@@ -2,10 +2,10 @@ export default {};
 export async function getFoodList() {
 
     const foods=[
-        {name: 'Apple', Origin: 'Vietnam', price: 10, date: new Date(), image:'https://picsum.photos/200' },
-        {name: 'Orange', Origin: 'China', price: 8, date: new Date(), image:'https://picsum.photos/200' },
-        {name: 'Watermillion', Origin: 'USA', price: 6, date: new Date(), image:'https://picsum.photos/200' },
-        {name: 'Rise', Origin: 'Mongolia', price: 2, date: new Date(), image: 'https://picsum.photos/200'}
+        {name: 'Apple', origin: 'Vietnam', price: 10, date: new Date(), image:'https://picsum.photos/200' },
+        {name: 'Orange', origin: 'China', price: 8, date: new Date(), image:'https://picsum.photos/200' },
+        {name: 'Watermelon', origin: 'USA', price: 6, date: new Date(), image:'https://picsum.photos/200' },
+        {name: 'Rise', origin: 'Mongolia', price: 2, date: new Date(), image: 'https://picsum.photos/200'}
 
     ]
 
@@ -27,13 +27,13 @@ export async function deleteFood(foodId) {
 
   try {
     // const ret = await fetch("http://localhost:5005/departments/653156f7b20ca0c4152c373a/courses", {
-    //   method: "GET",
+    //   method: "DELETE",
     //   headers: {
     //     "content-type": "application/json"
     //   }
     // });
     // const obj = await ret.json();
-    return foods;
+    return "";
   } catch (error) {
     throw error;
   }

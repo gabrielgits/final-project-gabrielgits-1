@@ -6,23 +6,27 @@ import Food from './Food';
 
 export default function FoodList() {
     const [searchText, setSearchText] = useState('');
-    const [foods, setFood]=useState([]);
-    const [refresh, setRefresh]=useState(false);
+    const [foods, setFood] = useState([]);
+    const [refresh, setRefresh] = useState(false);
 
-    const onRefresh=()=>{
+    const onRefresh = () => {
         setRefresh(!refresh)
     }
 
-    useEffect(async () => {
+    useEffect(() => {
         try {
-            const ret = await getFoodList()
-            setFood(ret);
+            async function getData() {
+                const ret = await getFoodList()
+                setFood(ret);
+            }
+            getData()
+
         } catch (error) {
 
         }
     }, [])
 
-    const handleAddFood=()=>{
+    const handleAddFood = () => {
 
     }
 
@@ -45,7 +49,7 @@ export default function FoodList() {
                 <FlatList
                     data={foods}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item, index }) => (<Food data={{ ...item, index }} onRefresh={onRefresh} />
+                    renderItem={({ item, index }) => (<Food food={{ ...item, index }} onRefresh={onRefresh} />
                     )}
                 />
             </View>

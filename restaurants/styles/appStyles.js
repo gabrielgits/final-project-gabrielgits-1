@@ -20,11 +20,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 3,
   },
-  rating: {
-    fontSize: 20,
-    color: "grey",
-    textAlign: "center",
-    marginVertical: 40,
+  infoHeader: {
+    padding: 20
+  },
+  info: {
+    marginTop: 20,
+  },
+  name: {
+    fontSize: 24,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    margin: 20,
+  },
+  faculty: {
+    color: 'grey',
+    marginBottom: 5,
   },
   submitButton: {
     paddingVertical: 10,

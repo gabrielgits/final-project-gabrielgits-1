@@ -4,17 +4,17 @@ import { useNavigation } from '@react-navigation/native';
 import styles from '../../styles/appStyles';
 import { deleteFood } from '../../core/network';
 
-const Food = ({ data, onRefresh }) => {
-    const { index, _id, name, price } = data;
+const Food = ({ food, onRefresh }) => {
+    const { index, _id, name, price } = food;
 
     const navigation = useNavigation();
 
-    const infoPressed = () => {
-        navigation.navigate('fooddetails', { data })
+    const handleDetail = () => {
+        navigation.navigate('fooddetails', { food })
     };
 
     const handleEdit = () => {
-        navigation.navigate('editfood', { data, onRefresh })
+        navigation.navigate('editfood', { food, onRefresh })
     }
 
     const handleDelete = async () => {
@@ -48,7 +48,7 @@ const Food = ({ data, onRefresh }) => {
 
                 <View style={styles.edges}>
                     <TouchableHighlight
-                        onPress={infoPressed}
+                        onPress={handleDetail}
                         style={styles.button}
                         underlayColor="#5398DC">
                         <Text style={styles.buttonText}>Details</Text>
