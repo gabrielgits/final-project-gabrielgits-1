@@ -12,7 +12,7 @@ const initiDb = async () => {
 
 initiDb();
 
-const COLLECTION_NAME = 'restaurants';
+const COLLECTION_NAME = 'users';
 
 
 // Add department
