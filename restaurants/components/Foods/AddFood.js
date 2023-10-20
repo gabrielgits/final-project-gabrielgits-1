@@ -7,7 +7,7 @@ import GlobalContext from "../../core/context";
 
 export default function AddFood() {
 
-    const {globalstate, setGlobalState}=useContext(GlobalContext);
+    //const {globalstate, setGlobalState}=useContext(GlobalContext);
 
     const navigation = useNavigation();
     const [state, setState] = useState(
@@ -29,13 +29,13 @@ export default function AddFood() {
             let d=0/5
             navigation.goBack();
         } catch (error) {
-            setGlobalState({...globalstate, errorMessage:'Unable to save data'})
+           // setGlobalState({...globalstate, errorMessage:'Unable to save data'})
         }
     }
     return (
         <View style={styles.root}>
             <Text style={styles.title}>Add New Food</Text>
-            <Text style={styles.errorMsg}>{globalstate.errorMessage} </Text>
+            {/* <Text style={styles.errorMsg}>{globalstate.errorMessage} </Text> */}
             <TextInput
                 style={styles.input}
                 placeholder="name"
