@@ -18,9 +18,6 @@ let foods = [
 
 export async function getFoodList() {
 
-    
-
-
     try {
         // const ret = await fetch("http://localhost:5005/departments/653156f7b20ca0c4152c373a/courses", {
         //   method: "GET",
@@ -55,7 +52,7 @@ export async function editFood(foodId) {
 
     try {
         // const ret = await fetch("http://localhost:5005/departments/653156f7b20ca0c4152c373a/courses", {
-        //   method: "DELETE",
+        //   method: "PUT",
         //   headers: {
         //     "content-type": "application/json"
         //   }
@@ -70,6 +67,13 @@ export async function editFood(foodId) {
 export async function addFood(food) {
 
     try {
+        // const ret = await fetch("http://localhost:5005/departments/653156f7b20ca0c4152c373a/courses", {
+        //   method: "POST",
+        //   headers: {
+        //     "content-type": "application/json"
+        //   }
+        // });
+        // const obj = await ret.json();
         foods.push(food)
         return { success: true };
     } catch (error) {

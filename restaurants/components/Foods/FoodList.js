@@ -34,6 +34,15 @@ export default function FoodList() {
         navigation.navigate('addfood', { onRefresh })
     }
 
+    const filteredData = [...foods].filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase()));
+    let myfoodlist = []
+
+    if (searchText !== "") {
+        myfoodlist = filteredData;
+    } else {
+        myfoodlist = foods;
+    }
+
     return (
         <SafeAreaView
             style={styles.root}>
@@ -51,7 +60,7 @@ export default function FoodList() {
                     <Text style={styles.submitButtonText} onPress={handleAddFood} >Add Food</Text>
                 </Pressable>
                 <FlatList
-                    data={foods}
+                    data={myfoodlist}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item, index }) => (<Food food={{ ...item, index }} onRefresh={onRefresh} />
                     )}
