@@ -2,14 +2,14 @@ const express = require('express');
 const { connectDB } = require('../data/mongodb');
 const {ObjectId} = require('mongodb');
 const router = express.Router();
+const jwt = require("jsonwebtoken")
+const PRIVATE_KEY = "Restaurant-App-2023";
 
 
 let db = null;
-
 const initiDb = async () => {
   db = await connectDB();
 }
-
 initiDb();
 
 const COLLECTION_NAME = 'users';
@@ -17,6 +17,29 @@ const COLLECTION_NAME = 'users';
 const today = new Date();
 const todayDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 
+
+function auth(req, res, next) {
+  if (!req.headers.authorization) {
+      res.status(201).send({ success: false, error: "Please provide Authorization" })
+  }
+  const arr = req.headers.authorization.split(" ");
+  if (arr.length !== 2) {
+      res.status(202).send({ success: false, error: "Please use Bearer scheme" })
+  }
+  try {
+      const decode = jwt.verify(arr[1], PRIVATE_KEY);
+      if (decode) {
+          next();
+      }
+      else {
+          res.status(203).send({ success: false, error: "Wrong token" })
+      }
+  } catch (error) {
+      res.status(204).send({ success: false, error: "Wrong token" })
+  }
+}
+
+router.use('/:userId', auth);
 
 // Add user
 router.post("/", async (req, res) => {
@@ -26,7 +49,7 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ success: false, error: 'name, phone, address, email and password are required.' });
     }
     const result = await db.collection(COLLECTION_NAME).insertOne({ name, phone, address, email, password });
-    res.json({ success: true, data: result });
+    res.status(200).json({ success: true, data: result });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
   }
@@ -60,7 +83,7 @@ router.put("/:userId", async (req, res) => {
       { _id: new ObjectId(userId) },
       { $set: { name, phone, email, address } }
     );
-    res.json({ success: true, data: result });
+    res.status(200).json({ success: true, data: result });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
   }
@@ -78,7 +101,7 @@ router.put("/:userId/password", async (req, res) => {
       { _id: new ObjectId(userId) },
       { $set: { password } }
     );
-    res.json({ success: true, data: result });
+    res.status(200).json({ success: true, data: result });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
   }
