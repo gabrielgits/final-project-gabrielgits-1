@@ -46,10 +46,10 @@ export default function FoodList() {
     return (
         <SafeAreaView
             style={styles.root}>
-            <View style={{ flex: 0.3 }}>
-                <Text style={styles.info}> Foods InStock</Text>
+            <View style={{ flex: 0.2 }}>
+                <Text style={styles.title}> Foods InStock</Text>
             </View >
-            <View style={{ flex: 0.7 }}>
+            <View style={{ flex: 0.8 }}>
                 <TextInput
                     style={styles.input}
                     placeholder='Live Search'

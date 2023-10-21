@@ -42,8 +42,9 @@ const Food = ({ food, onRefresh }) => {
             style={{ backgroundColor: index % 2 === 0 ? 'white' : '#F3F3F7' }}>
             <View style={styles.row}>
 
-                <View>
-                    <Text>{name}- {price}</Text>
+                <View style={styles.name}>
+                    <Text>Name: {name}</Text>
+                    <Text>Price: {price}</Text>
                 </View>
 
                 <View style={styles.edges}>

@@ -1,4 +1,4 @@
-import { Text, Pressable, TextInput, View } from "react-native"
+import { Alert, Text, Pressable, TextInput, View } from "react-native"
 import React, { useState, useContext } from "react";
 import { useNavigation, useRoute } from '@react-navigation/native';
 import styles from "../../styles/appStyles";
@@ -24,12 +24,28 @@ export default function AddFood() {
 
     const handleSave = async () => {
         try {
+            // Validate input variables
+            if (!state.name || typeof state.name !== 'string') {
+                Alert.alert('Error', 'Name must be a non-empty string');
+                return;
+            }
+
+            if (!state.price || isNaN(parseFloat(state.price))) {
+                Alert.alert('Error', 'Price must be a valid number');
+                return;
+            }
+
+            if (!state.origin || typeof state.origin !== 'string') {
+                Alert.alert('Error', 'Origin must be a non-empty string');
+                return;
+            }
+
             const ret = await addFood(state);
-            onRefresh();
-            let d=0/5
+
+            onRefresh(); // reload FoodList component            
             navigation.goBack();
         } catch (error) {
-           // setGlobalState({...globalstate, errorMessage:'Unable to save data'})
+            // setGlobalState({...globalstate, errorMessage:'Unable to save data'})
         }
     }
     return (
@@ -57,7 +73,8 @@ export default function AddFood() {
             ></TextInput>
             <TextInput
                 style={styles.input}
-                placeholder="mm/dd/yyyy"
+                placeholder="mm-dd-yyyy"
+                keyboardType="numeric"
                 value={state.date}
                 onChangeText={(text) => setState({ ...state, date: text })}
             ></TextInput>

@@ -53,7 +53,7 @@ export default function EditFood() {
             ></TextInput>
             <TextInput
                 style={styles.input}
-                placeholder="mm/dd/yyyy"
+                placeholder="mm-dd-yyyy"
                 keyboardType="numeric"
                 value={state.date}
                 onChangeText={(text) => setState({ ...state, date: text })}
