@@ -1,12 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ActivityIndicator, View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import About from './components/About';
-import CoursesScreen from './screens/CoursesScreen';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import GlobalContext from './core/context';
-import { constServer } from './core/constats';
+import Signup from './components/Auth/Signup';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,6 +17,7 @@ export default function App() {
 
   const [loading, setLoading] = useState({ state: true, text: 'Loading...' });
 
+  /*
   useEffect(() => {
     const getData = async () => {
       try {
@@ -65,6 +65,11 @@ export default function App() {
     }
     getData();
   }, []);
+  */
+
+  if (true){
+    return <Signup/>
+  }
 
   if (loading.state) {
     return (
