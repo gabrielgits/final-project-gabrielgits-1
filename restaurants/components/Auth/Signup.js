@@ -1,7 +1,10 @@
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styles from '../../styles/general';
 import { Button, View, TextInput, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { signup } from '../../core/network';
+import GlobalContext from '../../core/context';
 
 export default function Signup() {
     const [state, setState] = useState({
@@ -9,20 +12,30 @@ export default function Signup() {
         password: "",
         name: "",
         phone: "",
+        address: "",
         confirmPassword: "",
     })
+    const {globalState, setGlobalState} = useContext(GlobalContext);
 
-    const signup = () => {
+    const navigation = useNavigation();
 
+    const signupHandle = async () => {
+        const obj = await signup({...state});
+        if (obj.success) {
+            await setLocalUser(obj.data);
+            setGlobalState({ ...globalState, login: obj.data });
+        } else {
+            Alert.alert(obj.error);
+        }
     }
 
     const goToLogin = () => {
-        
+        navigation.navigate('login');
     }
 
     return (
         <View style={styles.container} >
-            <Text style={styles.header} >Please insert your email and password</Text>
+            <Text style={styles.header} >Please insert your details</Text>
             <View style={{
                 borderWidth: 1,
                 borderColor: 'gray',
@@ -34,11 +47,13 @@ export default function Signup() {
                     value={state.phone} onChangeText={(text) => setState({ ...state, phone: text })} />
                 <TextInput style={styles.input} placeholder="Email"
                     value={state.email} onChangeText={(text) => setState({ ...state, email: text })} />
+                <TextInput style={styles.input} placeholder="Address"
+                    value={state.address} onChangeText={(text) => setState({ ...state, address: text })} />
                 <TextInput style={styles.input} placeholder="Password"
                     value={state.password} onChangeText={(text) => setState({ ...state, password: text })} />
                 <TextInput style={styles.input} placeholder="Confirm Password"
                     value={state.confirmPassword} onChangeText={(text) => setState({ ...state, confirmPassword: text })} />
-                <Button title="Signup" onPress={signup} />
+                <Button title="Signup" onPress={signupHandle} />
                 <Text style={{
                     margin: 20,
                     textAlign: 'center',

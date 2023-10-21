@@ -1,3 +1,6 @@
+import { Alert } from "react-native";
+import { constServer } from "./constats";
+
 export default {};
 
 function formatDateToMMDDYYYY(date) {
@@ -16,6 +19,45 @@ let foods = [
 
 ]
 
+export async function login(email, password) {
+   
+    try {
+       
+        const ret = await fetch(constServer + "/login", {
+            method: "POST",
+            body: JSON.stringify({
+                email,
+                password
+            }),
+            headers: {
+                "content-type": "application/json",
+            }
+        });
+        
+        const obj = await ret.json();
+        return obj;
+    } catch (error) {
+        Alert.alert(error.message);
+        return { success: false, error: error.message };
+    }
+}
+
+export async function signup(user) {
+    try {
+        const ret = await fetch(constServer + "/signup/", {
+            method: "POST",
+            body: JSON.stringify(user),
+            headers: {
+                "content-type": "application/json",
+            }
+        });
+        const obj = await ret.json();
+        return obj;
+    } catch (error) {
+        Alert.alert(error.message);
+    }
+}
+    
 export async function getFoodList() {
 
     try {
@@ -79,20 +121,5 @@ export async function addFood(food) {
     } catch (error) {
         throw error;
     }
-}
-
-import React from "react";
-const user_Id = "6532c8e5c8c6c57823fe7402";
-export async function getDailyNotes() {
-  try {
-    const uri = `http://localhost:3000/users/${user_Id}/notes`;
-    const result = await fetch(uri);
-
-    const obj = await result.json();
-    if (obj.success) {
-      return obj.data;
-    }
-  } catch (error) {}
-  return [];
 }
 
