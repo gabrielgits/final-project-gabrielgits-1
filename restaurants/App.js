@@ -1,12 +1,9 @@
-import { NavigationContainer } from "@react-navigation/native";
-import React from "react";
+
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
-import FoodsScreen from "./screens/FoodsScreen";
 import DailyScreen from "./screens/DailyScreen";
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import FoodsScreen from './screens/FoodsScreen';
 import { getLocalUser } from './core/storage';
