@@ -1,11 +1,15 @@
 import { getFoodList } from '../../core/network';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { SafeAreaView, FlatList, Pressable, Text, View, TextInput } from 'react-native';
 import styles from '../../styles/appStyles';
 import Food from './Food';
 import { useNavigation } from '@react-navigation/native';
+import GlobalContext from '../../core/context';
 
 export default function FoodList() {
+
+    const {globalState, setGlobalState} = useContext(GlobalContext); // get token
+
     const [searchText, setSearchText] = useState('');
     const [foods, setFood] = useState([]);
     const [refresh, setRefresh] = useState(false); //handle Food list refresh by this state change
@@ -18,7 +22,7 @@ export default function FoodList() {
     useEffect(() => {
         try {
             async function getData() {
-                const ret = await getFoodList();
+                const ret = await getFoodList(globalState.login);
                 if (ret && ret.success) {
                     setFood(ret.data);
                 }

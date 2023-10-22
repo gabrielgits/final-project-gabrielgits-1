@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 });
 let db = null;
 const initiDb = async () => {
-  db = await connectDB();
+  db = await connectDB();  
 }
 initiDb();
 
