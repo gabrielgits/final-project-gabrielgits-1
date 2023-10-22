@@ -19,7 +19,7 @@ export default function DailyNotes() {
   const navigation = useNavigation();
   const { globalState } = useContext(GlobalContext);
   const token = globalState.login.token
-
+  const userId = globalState.login.userId
   const onRefresh = () => {
     setRefresh(!refresh);
   };
@@ -27,7 +27,7 @@ export default function DailyNotes() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await getDailyNotes(token);
+        const data = await getDailyNotes(token, userId);
         // console.log("Token" , token)
         // console.log(data);
         setNotes(data);

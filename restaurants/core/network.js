@@ -142,10 +142,18 @@ export async function addFood(food) {
 
 
 const BASE_URL = 'http://localhost:5001/users/65343946e323fd94f34b4790'; 
-// const user_Id = "65343946e323fd94f34b4790";
+//  const user_Id = "65343946e323fd94f34b4790";
 
 // network.js
 
+
+{/**you dont need this:
+const user_Id = "65343946e323fd94f34b4790";
+const BASE_URL = 'http://localhost:5001/users/65343946e323fd94f34b4790';
+change this:
+  export async function getDailyNotes(token) {
+    try {
+      const uri = `${BASE_URL}/notes`; */}
 
 
 export const addNoteToDB = async (noteData, token) => {
@@ -169,9 +177,12 @@ export const addNoteToDB = async (noteData, token) => {
     return false; 
   }
 };
-  export async function getDailyNotes(token) {
+
+//get daily notes
+  export async function getDailyNotes(token,userId ) {
     try {
-      const uri = `${BASE_URL}/notes`;
+      // const uri = `${BASE_URL}/notes`;
+      const uri = constServer + "/users/"+userId+"/notes";
       const headers = {
         Authorization: `Bearer ${token}`, 
       };
