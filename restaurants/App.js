@@ -9,6 +9,7 @@ import FoodsScreen from './screens/FoodsScreen';
 import { getLocalUser } from './core/storage';
 import AuthScreen from './screens/AuthScreen';
 import GlobalContext from './core/context';
+import ProfileScreen from "./screens/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -37,6 +38,7 @@ export default function App() {
   }
 
   return (
+    <GlobalContext.Provider value={{globalState, setGlobalState}}>
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={{
@@ -68,12 +70,13 @@ export default function App() {
             ),
           }}
         />
-                <Tab.Screen name="profile" component={Pro} options={{
+                <Tab.Screen name="profile" component={ProfileScreen} options={{
           headerShown: false, tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="person" color={color} size={26} />
           ),
         }} />
       </Tab.Navigator>
     </NavigationContainer>
+    </GlobalContext.Provider>
   );
 }

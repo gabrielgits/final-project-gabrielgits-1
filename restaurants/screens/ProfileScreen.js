@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import ViewProfile from '../components/Auth/ViewProfile';
+import ViewProfile from '../components/Profile/ViewProfile';
 const Stack = createNativeStackNavigator();
-export default function AuthPerfile() {
+export default function ProfileScreen() {
 
     return (
         <Stack.Navigator 
