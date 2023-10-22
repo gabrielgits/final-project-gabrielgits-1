@@ -23,6 +23,7 @@ export default function Signup() {
     const signupHandle = async () => {
         const obj = await signup({...state});
         if (obj.success) {
+            // obj = {success: true, token, userId};;
             await setLocalUser(obj);
             setGlobalState({ ...globalState, login: obj });
         } else {

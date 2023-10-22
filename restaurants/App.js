@@ -16,7 +16,7 @@ const Tab = createBottomTabNavigator();
 export default function App() {
 
   const [globalState, setGlobalState] = useState({
-    login: null
+    login: null // login = {success: true, token, userId};
   });
 
   React.useEffect(() => {
