@@ -41,7 +41,7 @@ export default function FoodList() {
 
     //const filteredData = [...foods].filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase()));
     let myfoodlist = []
-    //console.log(foods)
+    console.log(foods)
 
     if (searchText !== "") {
         myfoodlist = [...foods].filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase()));;

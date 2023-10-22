@@ -12,7 +12,7 @@ export async function login(email, password) {
         password,
       }),
       headers: {
-        "content-type": "application/json",
+        "content-type": "application/json"
       },
     });
 
@@ -30,12 +30,12 @@ export async function getUser(token, userId) {
       method: "GET",
       headers: {
         "content-type": "application/json",
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`
       },
     });
     const obj = await ret.json();
     return obj;
-  } 
+  }
   catch (error) {
     Alert.alert(error.message);
     return { success: false, error: error.message };
@@ -48,8 +48,8 @@ export async function signup(user) {
       method: "POST",
       body: JSON.stringify(user),
       headers: {
-        "content-type": "application/json",
-      },
+        "content-type": "application/json"
+      }
     });
     const obj = await ret.json();
     return obj;
@@ -64,12 +64,12 @@ export async function getFoodList(token, userId) {
       method: "GET",
       headers: {
         "content-type": "application/json",
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`
       },
     });
     const obj = await ret.json();
-    console.log('network: ', obj)
-    return { success: true, data: obj };
+   // console.log('network: ', obj)
+    return obj;
   } catch (error) {
     throw error;
   }
@@ -82,7 +82,7 @@ export async function addFood(food, token, userId) {
       body: JSON.stringify(food),
       headers: {
         "content-type": "application/json",
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`
       },
     });
     const obj = await ret.json();
@@ -95,13 +95,13 @@ export async function addFood(food, token, userId) {
 
 export async function deleteFood(foodId, token, userId) {
   try {
-    const ret = await fetch(constServer + '/users/' + userId + '/foods/'+foodId, {
+    const ret = await fetch(constServer + '/users/' + userId + '/foods/' + foodId, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
         'Authorization': `Bearer ${token}`
       }
-    );
+    });
     const obj = await ret.json();
     return { success: true };
   } catch (error) {
@@ -111,14 +111,14 @@ export async function deleteFood(foodId, token, userId) {
 
 export async function editFood(food, token, userId) {
   try {
-    const ret = await fetch(constServer + '/users/' + userId + '/foods/'+food._id, {
+    const ret = await fetch(constServer + '/users/' + userId + '/foods/' + food._id, {
       method: "PUT",
-      body: food,
+      body: JSON.stringify(food),
       headers: {
         "content-type": "application/json",
         'Authorization': `Bearer ${token}`
       }
-    );
+    });
     const obj = await ret.json();
     return { success: true };
   } catch (error) {
@@ -133,7 +133,7 @@ export const addNoteToDB = async (token, userId, noteData) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(noteData),
     });
@@ -153,7 +153,7 @@ export async function getDailyNotes(token, userId) {
   try {
     const uri = constServer + "/users/" + userId + "/notes";
     const headers = {
-      Authorization: `Bearer ${token}`,
+      "Authorization": `Bearer ${token}`
     };
 
     const response = await fetch(uri, {
@@ -180,7 +180,7 @@ export async function editDailyNote(token, userId, note) {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(note),
     });
@@ -203,7 +203,7 @@ export async function deleteNote(token, userId, noteId) {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`
       },
     });
 
