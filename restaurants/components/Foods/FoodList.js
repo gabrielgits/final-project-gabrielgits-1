@@ -8,7 +8,7 @@ import GlobalContext from '../../core/context';
 
 export default function FoodList() {
 
-    const {globalState, setGlobalState} = useContext(GlobalContext); // get token
+    const { globalState, setGlobalState } = useContext(GlobalContext); // get token
 
     const [searchText, setSearchText] = useState('');
     const [foods, setFood] = useState([]);
@@ -23,6 +23,7 @@ export default function FoodList() {
         try {
             async function getData() {
                 const ret = await getFoodList(globalState.login.token, globalState.login.userId);
+                //console.log(ret.data.data)
                 if (ret && ret.success) {
                     setFood(ret.data);
                 }
@@ -38,14 +39,15 @@ export default function FoodList() {
         navigation.navigate('addfood', { onRefresh })
     }
 
-    const filteredData = [...foods].filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase()));
     let myfoodlist = []
+    //console.log(foods)
 
     if (searchText !== "") {
-        myfoodlist = filteredData;
+        myfoodlist = [...foods].filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase()));;
     } else {
         myfoodlist = foods;
     }
+
 
     return (
         <SafeAreaView

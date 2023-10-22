@@ -12,12 +12,23 @@ const port = process.env.PORT || 5001;
 app.use(express.json());
 app.use(cors());
 
+
+// // Configure CORS with specific origins
+// const corsOptions = {
+//     origin: 'http://localhost:19006', // Replace with the actual front-end URL
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     credentials: true, // Include cookies and authorization headers
+//     optionsSuccessStatus: 204, // Respond with a 204 status for preflight requests
+// };
+
+// app.use(cors(corsOptions)); // Apply CORS with options
+
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Welcome' });
 });
 let db = null;
 const initiDb = async () => {
-  db = await connectDB();  
+    db = await connectDB();
 }
 initiDb();
 

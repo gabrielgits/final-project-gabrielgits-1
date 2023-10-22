@@ -3,7 +3,10 @@ const { connectDB } = require("../data/mongodb");
 const { ObjectId } = require("mongodb");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
+//const cors = require('cors');
 const PRIVATE_KEY = "Restaurant-App-2023";
+
+
 
 let db = null;
 const initiDb = async () => {
@@ -217,7 +220,9 @@ router.put("/:userId/foods/:foodId", async (req, res) => {
   try {
     const userId = req.params.userId;
     const foodId = req.params.foodId;
-    const { name, origin, price } = req.body;
+    const { name, origin, price, image, date } = req.body;
+    console.log('Im edit: ',req.body)
+
     const result = await db.collection(COLLECTION_NAME).updateOne(
       {
         _id: new ObjectId(userId),
@@ -228,6 +233,8 @@ router.put("/:userId/foods/:foodId", async (req, res) => {
           "foods.$.name": name,
           "foods.$.origin": origin,
           "foods.$.price": price,
+          "foods.$.image": image,
+          "foods.$.date": date
         },
       }
     );

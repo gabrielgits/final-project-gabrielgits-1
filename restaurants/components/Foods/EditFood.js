@@ -1,5 +1,5 @@
 import { Text, Pressable, TextInput, View } from "react-native"
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { editFood } from "../../core/network";
 import styles from "../../styles/appStyles";

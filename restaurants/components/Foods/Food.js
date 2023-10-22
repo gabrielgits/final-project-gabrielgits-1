@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Alert, View, Text, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from '../../styles/appStyles';
@@ -29,14 +29,17 @@ const Food = ({ food, onRefresh }) => {
         //   {
         //     text: 'OK',
         //     onPress: async () => {
-        //       await deleteFood(_id);
+        //       await deleteFood(_id, globalState.login.token, globalState.login.userId);
         //       onRefresh()
         //     }
         //   },
         // ]);
 
+        console.log(_id)
+
         await deleteFood(_id, globalState.login.token, globalState.login.userId);
-        onRefresh()
+        onRefresh();
+        navigation.navigate('foodlist');
 
     }
 

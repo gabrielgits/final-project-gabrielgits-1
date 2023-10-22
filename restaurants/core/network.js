@@ -26,7 +26,7 @@ export async function login(email, password) {
 
 export async function getUser(token, userId) {
   try {
-    const ret = await fetch(constServer + "/users/"+userId, {
+    const ret = await fetch(constServer + "/users/" + userId, {
       method: "GET",
       headers: {
         "content-type": "application/json",
@@ -35,7 +35,7 @@ export async function getUser(token, userId) {
     });
     const obj = await ret.json();
     return obj;
-  } 
+  }
   catch (error) {
     Alert.alert(error.message);
     return { success: false, error: error.message };
@@ -68,8 +68,8 @@ export async function getFoodList(token, userId) {
       }
     });
     const obj = await ret.json();
-    console.log('network: ', obj)
-    return { success: true, data: obj };
+    //console.log('network: ', obj)
+    return obj;
   } catch (error) {
     throw error;
   }
@@ -77,16 +77,21 @@ export async function getFoodList(token, userId) {
 
 export async function addFood(food, token, userId) {
   try {
+
+    //console.log('input: ', food, token, userId)
+    
+    //console.log('uri: ',constServer + '/users/' + userId + '/foods')
+
     const ret = await fetch(constServer + '/users/' + userId + '/foods', {
       method: "POST",
-      body: food,
+      body: JSON.stringify(food),
       headers: {
         "content-type": "application/json",
         'Authorization': `Bearer ${token}`
       }
     });
     const obj = await ret.json();
-    console.log(obj)
+    //console.log(obj)
     return { success: true };
   } catch (error) {
     throw error;
@@ -96,7 +101,7 @@ export async function addFood(food, token, userId) {
 
 export async function deleteFood(foodId, token, userId) {
   try {
-    const ret = await fetch(constServer + '/users/' + userId + '/foods/'+foodId, {
+    const ret = await fetch(constServer + '/users/' + userId + '/foods/' + foodId, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
@@ -112,9 +117,9 @@ export async function deleteFood(foodId, token, userId) {
 
 export async function editFood(food, token, userId) {
   try {
-    const ret = await fetch(constServer + '/users/' + userId + '/foods/'+food._id, {
+    const ret = await fetch(constServer + '/users/' + userId + '/foods/' + food._id, {
       method: "PUT",
-      body: food,
+      body: JSON.stringify(food),
       headers: {
         "content-type": "application/json",
         'Authorization': `Bearer ${token}`
