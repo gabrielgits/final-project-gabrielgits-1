@@ -1,44 +1,34 @@
-// // components/AddNotes.js
-// import React, { useState } from 'react';
-// import { View, Text, TextInput, Button } from 'react-native';
-
-// function AddNotes({ navigation }) {
-//   const [header, setHeader] = useState('');
-//   const [comment, setComment] = useState('');
-//   const addNote = () => {  
-//   };
-
-//   return (
-//     <View>
-//       <Text>Add a New Note</Text>
-//       <TextInput
-//         placeholder="Header"
-//         value={header}
-//         onChangeText={(text) => setHeader(text)}
-//       />
-//       <TextInput
-//         placeholder="Comment"
-//         value={comment}
-//         onChangeText={(text) => setComment(text)}
-//       />
-//       <Button title="Add" onPress={addNote} />
-//       <Button title="Cancel" onPress={() => navigation.navigate('notelist')} />
-//     </View>
-//   );
-// }
-
-// export default AddNotes;
-
-
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { addNoteToDB } from '../../core/network';
+import GlobalContext from '../../core/context';
 
 function AddNotes({ navigation }) {
   const [header, setHeader] = useState('');
   const [comment, setComment] = useState('');
+  const [date, setDate] = useState('');
+  const [refresh, setRefresh] = useState(false);
+  const { globalState } = useContext(GlobalContext)
+  const token = globalState.login.token
 
-  const addNote = () => {
-    // Implement your logic to add the note
+  
+  const onRefresh = () => {
+    setRefresh(!refresh);
+  };
+  const addNote = async () => {
+    const noteData = {
+      header,
+      comment,
+      date,
+    };
+
+    const isNoteAdded = await addNoteToDB(noteData, token);
+
+    if (isNoteAdded) {
+           navigation.navigate('notelist');
+    } else {
+      console.error('Failed to add note.');
+    }
   };
 
   return (
@@ -56,12 +46,17 @@ function AddNotes({ navigation }) {
         value={comment}
         onChangeText={(text) => setComment(text)}
       />
+      <TextInput
+        style={styles.input}
+        placeholder="Date"
+        value={date}
+        onChangeText={(text) => setDate(text)}
+      />
       <View style={styles.buttonContainer}>
-        <Button title="Add" onPress={addNote} style={styles.button} />
+        <Button title="Add" onPress={addNote} />
         <Button
           title="Cancel"
-          onPress={() => navigation.navigate('NoteList')}
-          style={styles.button}
+          onPress={() => navigation.navigate('notelist', {onRefresh})}
         />
       </View>
     </View>
@@ -93,9 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: '100%',
   },
-  button: {
-    width: '40%',
-  },
+
 });
 
 export default AddNotes;

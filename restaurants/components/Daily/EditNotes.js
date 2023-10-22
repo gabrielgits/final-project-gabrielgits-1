@@ -1,47 +1,25 @@
-// // components/EditNotes.js
-// import React, { useState } from 'react';
-// import { View, Text, TextInput, Button } from 'react-native';
-
-// function EditNotes({ route, navigation }) {
-//   const { note } = route.params;
-//   const [header, setHeader] = useState(note.header);
-//   const [comment, setComment] = useState(note.comment);
-
-//   const saveNote = () => {
-//     const updatedNote = { ...note, header, comment };
-  
-//     navigation.navigate('notedetails', { note: updatedNote });
-//   };
-
-//   return (
-//     <View>
-//       <Text>Edit Note</Text>
-//       <TextInput value={header} onChangeText={(text) => setHeader(text)} />
-//       <TextInput value={comment} onChangeText={(text) => setComment(text)} />
-//       <Button title="Save" onPress={saveNote} />
-//       <Button
-//         title="Cancel"
-//         onPress={() => navigation.navigate('NoteDetails', { note })}
-//       />
-//     </View>
-//   );
-// }
-
-// export default EditNotes;
-
-
-
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import GlobalContext from '../../core/context';
+import { editDailyNote } from '../../core/network';
 
 function EditNotes({ route, navigation }) {
   const { note } = route.params;
   const [header, setHeader] = useState(note.header);
   const [comment, setComment] = useState(note.comment);
+  const [date, setDate] = useState(note.date);
+  
+  const { globalState } = useContext(GlobalContext);
+  const token = globalState.login.token;
 
-  const saveNote = () => {
-    const updatedNote = { ...note, header, comment };
-    navigation.navigate('notedetails', { note: updatedNote });
+  const saveNote = async () => {
+    const updatedNote = { ...note, header, date, comment };
+    const isNoteUpdated = await editDailyNote(updatedNote, token);
+    if (isNoteUpdated) {
+      navigation.navigate('notedetails', { note: updatedNote });
+    } else {
+      console.error('Failed to update note.');
+    }
   };
 
   return (
@@ -51,6 +29,12 @@ function EditNotes({ route, navigation }) {
         style={styles.input}
         value={header}
         onChangeText={(text) => setHeader(text)}
+      />
+
+      <TextInput
+        style={styles.input}
+        value={date}
+        onChangeText={(text) => setDate(text)}
       />
       <TextInput
         style={styles.input}
