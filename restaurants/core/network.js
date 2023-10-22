@@ -63,6 +63,24 @@ export async function login(email, password) {
   }
 }
 
+export async function getUser(token, userId) {
+  try {
+    const ret = await fetch(constServer + "/users/"+userId, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    const obj = await ret.json();
+    return obj;
+  } 
+  catch (error) {
+    Alert.alert(error.message);
+    return { success: false, error: error.message };
+  }
+}
+
 export async function signup(user) {
   try {
     const ret = await fetch(constServer + "/signup/", {
