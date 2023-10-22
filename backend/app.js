@@ -37,7 +37,7 @@ app.post('/login', async (req, res) => {
 
         // Generate JWT token and send it in response
         const token = jwt.sign({ userId: user._id }, PRIVATE_KEY);
-        res.status(200).json({ success: true, token });
+        res.status(200).json({ success: true, token, userId: user._id });
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, error: 'Server error' });
@@ -68,7 +68,7 @@ app.post('/signup', async (req, res) => {
         const result = await db.collection(COLLECTION_NAME).insertOne(newUser);
         const token = jwt.sign({ userId: result.insertedId }, PRIVATE_KEY);
 
-        res.status(200).json({ success: true, token });
+        res.status(200).json({ success: true, token, userId: result.insertedId });
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, error: error.message });
