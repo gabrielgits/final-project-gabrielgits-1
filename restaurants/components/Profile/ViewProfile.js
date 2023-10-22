@@ -33,7 +33,7 @@ export default function ViewProfile() {
     }
 
     const goToChangeProfile = () => {
-        navigation.navigate("changeProfile");
+        navigation.navigate("EditProfile");
     }
 
     const goToChangePassword = () => {
@@ -52,8 +52,8 @@ export default function ViewProfile() {
                 <Text style={styles.text}>Address: {user.address}</Text>
             </View>
             <View style={styles.footer}>
-                <Button title="Change Profile" onPress={goToChangeProfile} />
-                <Button title="Update Password" onPress={goToChangePassword} />
+                <Button title="Edit Profile" onPress={goToChangeProfile} />
+                <Button title="Change Password" onPress={goToChangePassword} />
 
             </View>
             <Button title="Logout" onPress={logoutHandle} />

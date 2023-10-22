@@ -38,7 +38,11 @@ export default function FoodList() {
         navigation.navigate('addfood', { onRefresh })
     }
 
-    const filteredData = [...foods].filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase()));
+    if (foods.length === 0) {
+        return <Text>No data...</Text>;
+    }
+
+    const filteredData = foods.length > 0 ? [...foods].filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase())) : [];
     let myfoodlist = []
 
     if (searchText !== "") {
