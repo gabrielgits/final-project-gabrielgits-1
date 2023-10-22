@@ -123,3 +123,18 @@ export async function addFood(food) {
     }
 }
 
+
+const user_Id = "6532c8e5c8c6c57823fe7402";
+export async function getDailyNotes() {
+  try {
+    const uri = `http://localhost:3000/users/${user_Id}/notes`;
+    const result = await fetch(uri);
+
+    const obj = await result.json();
+    if (obj.success) {
+      return obj.data;
+    }
+  } catch (error) {}
+  return [];
+}
+
