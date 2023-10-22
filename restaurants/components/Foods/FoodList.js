@@ -33,7 +33,7 @@ export default function FoodList() {
         } catch (error) {
 
         }
-    }, [])
+    }, [refresh])
 
     const handleAddFood = () => {
         navigation.navigate('addfood', { onRefresh })
