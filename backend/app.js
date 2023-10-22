@@ -12,6 +12,8 @@ const port = process.env.PORT || 5001;
 app.use(express.json());
 app.use(cors());
 
+const bcrypt = require('bcrypt');
+
 
 // // Configure CORS with specific origins
 // const corsOptions = {
@@ -42,7 +44,16 @@ app.post('/login', async (req, res) => {
             return res.status(404).json({ success: false, error: 'User not found' });
         }
 
-        if (user.password !== password) {
+        const plainPassword = password; // Replace with the actual password
+
+        // Generate a salt
+        const saltRounds = 10; // You can adjust the number of rounds; a higher number is more secure but slower
+        const salt = await bcrypt.genSalt(saltRounds);
+
+        // Hash the password with the salt
+        const hashedPassword = await bcrypt.hash(plainPassword, salt);
+
+        if (user.password !== hashedPassword) {
             return res.status(401).json({ success: false, error: 'Invalid password' });
         }
 
@@ -58,7 +69,7 @@ app.post('/login', async (req, res) => {
 
 // Signup user
 app.post('/signup', async (req, res) => {
-    const { email, password, name, phone, address } = req.body;
+    let { email, password, name, phone, address } = req.body;
 
     try {
         // Check if user already exists
@@ -66,6 +77,18 @@ app.post('/signup', async (req, res) => {
         if (existingUser) {
             return res.status(409).json({ success: false, error: 'User already exists' });
         }
+
+        const plainPassword = password; // Replace with the actual password
+
+        // Generate a salt
+        const saltRounds = 10; // You can adjust the number of rounds; a higher number is more secure but slower
+        const salt = await bcrypt.genSalt(saltRounds);
+
+        // Hash the password with the salt
+        const hashedPassword = await bcrypt.hash(plainPassword, salt);
+
+        password=hashedPassword;
+
 
         // Create new user
         const newUser = {
