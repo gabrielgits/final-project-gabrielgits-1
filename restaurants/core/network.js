@@ -144,8 +144,9 @@ change this:
       const uri = `${BASE_URL}/notes`; */}
 
 
-export const addNoteToDB = async (noteData, token) => {
+export const addNoteToDB = async (token, userId, noteData) => {
   try {
+    const uri = constServer + "/users/"+userId+"/notes";
     const response = await fetch(`${BASE_URL}/notes`, {
       method: 'POST',
       headers: {
@@ -165,9 +166,9 @@ export const addNoteToDB = async (noteData, token) => {
     return false;
   }
 };
-export async function getDailyNotes(token) {
+export async function getDailyNotes(token, userId) {
   try {
-    const uri = `${BASE_URL}/notes`;
+    const uri = constServer + "/users/"+userId+"/notes";
     const headers = {
       Authorization: `Bearer ${token}`,
     };
