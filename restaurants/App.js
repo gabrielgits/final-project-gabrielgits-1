@@ -45,7 +45,11 @@ export default function App() {
             <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
         }} />
-
+        <Tab.Screen name="profile" component={Pro} options={{
+          headerShown: false, tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="person" color={color} size={26} />
+          ),
+        }} />
       </Tab.Navigator>
     </NavigationContainer>
 
