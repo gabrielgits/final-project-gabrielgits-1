@@ -159,11 +159,9 @@ const user_Id = "65343946e323fd94f34b4790";
         return obj.data;
       } else {
         console.log('Request failed with status:', response.status);
-        // Handle the error appropriately
       }
     } catch (error) {
       console.log("Error:", error);
-      // Handle the error appropriately
     }
   }
   
@@ -171,23 +169,3 @@ const user_Id = "65343946e323fd94f34b4790";
   
   
 
-// export async function getDailyNotes() {
-//     try {
-//     //   const user_Id = "65343946e323fd94f34b4790";
-//       const uri = `http://localhost:5001/users/65343946e323fd94f34b4790/notes`;
-//       const result = await fetch(uri);
-//    console.log(result);
-//       if (!result.ok) {
-//         throw new Error(`Failed to fetch data. Status code: ${result.status}`);
-//       }
-
-//       const obj = await result.json();
-
-//       if (obj.success) {
-//         return obj.data;
-//       }
-//     } catch (error) {
-//       console.error("Error fetching daily notes:", error);
-//     }
-//     return [];
-//   }
