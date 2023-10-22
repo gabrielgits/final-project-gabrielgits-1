@@ -72,7 +72,7 @@ export default function App() {
         />
                 <Tab.Screen name="profile" component={ProfileScreen} options={{
           headerShown: false, tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="person" color={color} size={26} />
+            <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
         }} />
       </Tab.Navigator>
