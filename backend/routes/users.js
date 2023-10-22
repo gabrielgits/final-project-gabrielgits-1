@@ -315,6 +315,8 @@ router.get("/:userId/notes/:noteId", async (req, res) => {
   }
 });
 
+
+//edit daily notes 
 router.patch("/:userId/notes/:noteId", async (req, res) => {
   try {
     const userId = req.params.userId;

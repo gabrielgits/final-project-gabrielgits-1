@@ -30,12 +30,12 @@ export async function getUser(token, userId) {
       method: "GET",
       headers: {
         "content-type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     const obj = await ret.json();
     return obj;
-  }
+  } 
   catch (error) {
     Alert.alert(error.message);
     return { success: false, error: error.message };
@@ -60,16 +60,16 @@ export async function signup(user) {
 
 export async function getFoodList(token, userId) {
   try {
-    const ret = await fetch(constServer + '/users/' + userId + '/foods', {
+    const ret = await fetch(constServer + "/users/" + userId + "/foods", {
       method: "GET",
       headers: {
         "content-type": "application/json",
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
     const obj = await ret.json();
-    //console.log('network: ', obj)
-    return obj;
+    console.log('network: ', obj)
+    return { success: true, data: obj };
   } catch (error) {
     throw error;
   }
@@ -77,37 +77,31 @@ export async function getFoodList(token, userId) {
 
 export async function addFood(food, token, userId) {
   try {
-
-    //console.log('input: ', food, token, userId)
-    
-    //console.log('uri: ',constServer + '/users/' + userId + '/foods')
-
     const ret = await fetch(constServer + '/users/' + userId + '/foods', {
       method: "POST",
       body: JSON.stringify(food),
       headers: {
         "content-type": "application/json",
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
     const obj = await ret.json();
-    //console.log(obj)
+    console.log(obj)
     return { success: true };
   } catch (error) {
     throw error;
   }
 }
 
-
 export async function deleteFood(foodId, token, userId) {
   try {
-    const ret = await fetch(constServer + '/users/' + userId + '/foods/' + foodId, {
+    const ret = await fetch(constServer + '/users/' + userId + '/foods/'+foodId, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
         'Authorization': `Bearer ${token}`
       }
-    });
+    );
     const obj = await ret.json();
     return { success: true };
   } catch (error) {
@@ -117,14 +111,14 @@ export async function deleteFood(foodId, token, userId) {
 
 export async function editFood(food, token, userId) {
   try {
-    const ret = await fetch(constServer + '/users/' + userId + '/foods/' + food._id, {
+    const ret = await fetch(constServer + '/users/' + userId + '/foods/'+food._id, {
       method: "PUT",
-      body: JSON.stringify(food),
+      body: food,
       headers: {
         "content-type": "application/json",
         'Authorization': `Bearer ${token}`
       }
-    });
+    );
     const obj = await ret.json();
     return { success: true };
   } catch (error) {
@@ -132,22 +126,14 @@ export async function editFood(food, token, userId) {
   }
 }
 
-
-
-const BASE_URL = 'http://localhost:5001/users/65343946e323fd94f34b4790';
-// const user_Id = "65343946e323fd94f34b4790";
-
-// network.js
-
-
-
-export const addNoteToDB = async (noteData, token) => {
+export const addNoteToDB = async (token, userId, noteData) => {
   try {
-    const response = await fetch(`${BASE_URL}/notes`, {
-      method: 'POST',
+    const uri = constServer + "/users/" + userId + "/notes";
+    const response = await fetch(uri, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(noteData),
     });
@@ -158,19 +144,20 @@ export const addNoteToDB = async (noteData, token) => {
       return false;
     }
   } catch (error) {
-    console.error('An error occurred:', error);
+    console.error("An error occurred:", error);
     return false;
   }
 };
-export async function getDailyNotes(token) {
+
+export async function getDailyNotes(token, userId) {
   try {
-    const uri = `${BASE_URL}/notes`;
+    const uri = constServer + "/users/" + userId + "/notes";
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
     const response = await fetch(uri, {
-      method: 'GET',
+      method: "GET",
       headers: headers,
     });
 
@@ -179,21 +166,23 @@ export async function getDailyNotes(token) {
       console.log(obj);
       return obj.data;
     } else {
-      console.log('Request failed with status:', response.status);
+      console.log("Request failed with status:", response.status);
     }
   } catch (error) {
     console.log("Error:", error);
   }
 }
-export async function editDailyNote(editedNote, token) {
+
+export async function editDailyNote(token, userId, note) {
   try {
-    const response = await fetch(`${BASE_URL}/notes/65347a46c8d17111ccc2f296`, {
-      method: 'PATCH',
+    const uri = `${constServer}/users/${userId}/notes/${note._id}`;
+    const response = await fetch(uri, {
+      method: "PATCH",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(editedNote),
+      body: JSON.stringify(note),
     });
 
     if (response.ok) {
@@ -202,20 +191,20 @@ export async function editDailyNote(editedNote, token) {
       return false;
     }
   } catch (error) {
-    console.error('An error occurred:', error);
+    console.error("An error occurred:", error);
     return false;
   }
-};
+}
 
-export async function deleteNote(tobeDeleted, token) {
+export async function deleteNote(token, userId, noteId) {
   try {
-    const response = await fetch(`${BASE_URL}/notes/6534b30543b15dc39b3eb7ed`, {
-      method: 'DELETE',
+    const uri = constServer + "/users/" + userId + "/notes/" + noteId;
+    const response = await fetch(uri, {
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(tobeDeleted),
     });
 
     if (response.ok) {
@@ -224,7 +213,7 @@ export async function deleteNote(tobeDeleted, token) {
       return false;
     }
   } catch (error) {
-    console.error('An error occurred:', error);
+    console.error("An error occurred:", error);
     return false;
   }
-};
+}
