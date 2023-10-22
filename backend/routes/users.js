@@ -24,6 +24,8 @@ function auth(req, res, next) {
       .send({ success: false, error: "Please provide Authorization" });
   }
   const arr = req.headers.authorization.split(" ");
+  //console.log('route: ', arr)
+
   if (arr.length !== 2) {
     res.status(202).send({ success: false, error: "Please use Bearer scheme" });
   }

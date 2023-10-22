@@ -21,6 +21,7 @@ export default function Login() {
             setGlobalState({ ...globalState, login: obj });
         } else {
             Alert.alert(obj.error);
+            console.log(obj.error)
         }
     }
 
@@ -39,7 +40,9 @@ export default function Login() {
                 <TextInput style={styles.input} placeholder="Email"
                     value={email} onChangeText={setEmail} />
                 <TextInput style={styles.input} placeholder="Password"
-                    value={password} onChangeText={setPassword} />
+                    value={password} 
+                    secureTextEntry={true}
+                    onChangeText={setPassword} />
                 <Button title="Login" onPress={loginHandle} />
                 <Text style={{
                     margin: 20,
