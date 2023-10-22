@@ -306,6 +306,35 @@ router.get("/:userId/notes/:noteId", async (req, res) => {
   }
 });
 
+router.patch("/:userId/notes/:noteId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const noteId = req.params.noteId;
+    const { header, date, comment } = req.body;
+
+    // Construct an update object with only the defined fields
+    const updateObject = {};
+    if (header !== undefined) updateObject["notes.$.header"] = header;
+    if (date !== undefined) updateObject["notes.$.date"] = date;
+    if (comment !== undefined) updateObject["notes.$.comment"] = comment;
+
+    // Update the note with the specified fields
+    const result = await db.collection(COLLECTION_NAME).updateOne(
+      {
+        _id: new ObjectId(userId),
+        "notes._id": new ObjectId(noteId),
+      },
+      {
+        $set: updateObject,
+      }
+    );
+
+    res.status(200).json({ success: true, data: result });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // Delete Note
 router.delete("/:userId/notes/:noteId", async (req, res) => {
   try {

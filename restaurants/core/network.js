@@ -140,10 +140,38 @@ export async function addFood(food) {
   }
 }
 
-const user_Id = "65343946e323fd94f34b4790";
+
+const BASE_URL = 'http://localhost:5001/users/65343946e323fd94f34b4790'; 
+// const user_Id = "65343946e323fd94f34b4790";
+
+// network.js
+
+
+
+export const addNoteToDB = async (noteData, token) => {
+  try {
+    const response = await fetch(`${BASE_URL}/notes`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`, 
+      },
+      body: JSON.stringify(noteData),
+    });
+
+    if (response.ok) {
+      return true; 
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error('An error occurred:', error);
+    return false; 
+  }
+};
   export async function getDailyNotes(token) {
     try {
-      const uri = `http://localhost:5001/users/${user_Id}/notes`;
+      const uri = `${BASE_URL}/notes`;
       const headers = {
         Authorization: `Bearer ${token}`, 
       };
@@ -164,8 +192,46 @@ const user_Id = "65343946e323fd94f34b4790";
       console.log("Error:", error);
     }
   }
-  
-  
-  
-  
+export async function editDailyNote(editedNote, token){
+  try {
+    const response = await fetch(`${BASE_URL}/notes/65347a46c8d17111ccc2f296`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(editedNote),
+    });
 
+    if (response.ok) {
+      return true; 
+    } else {
+      return false; 
+    }
+  } catch (error) {
+    console.error('An error occurred:', error);
+    return false; 
+  }
+};
+
+  export async function deleteNote(tobeDeleted, token){
+    try {
+      const response = await fetch(`${BASE_URL}/notes/6534b30543b15dc39b3eb7ed`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(tobeDeleted),
+      });
+  
+      if (response.ok) {
+        return true; 
+      } else {
+        return false; 
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+      return false; 
+    }
+  };
