@@ -35,7 +35,6 @@
 //     navigation.navigate("notelist", { onRefresh });
 //   };
 
-
 //   return (
 //     <SafeAreaView style={styles.root}>
 //       <View style={{ flex: 0.2 }}>
@@ -59,7 +58,6 @@
 //   );
 // }
 
-
 // const styles = StyleSheet.create({
 //     root: {
 //       flex: 1,
@@ -68,16 +66,26 @@
 //     }
 // })
 
-import React, { useEffect, useState } from "react";
-import { SafeAreaView, FlatList, Text, View, StyleSheet, TouchableHighlight } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  SafeAreaView,
+  FlatList,
+  Text,
+  View,
+  StyleSheet,
+  TouchableHighlight,
+} from "react-native";
 import ViewDaily from "./ViewDaily";
 import { useNavigation } from "@react-navigation/native";
 import { getDailyNotes } from "../../core/network";
+import GlobalContext from "../../core/context";
 
 export default function DailyNotes() {
   const [notes, setNotes] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const navigation = useNavigation();
+  const { globalState } = useContext(GlobalContext);
+  const token = globalState.login.token
 
   const onRefresh = () => {
     setRefresh(!refresh);
@@ -86,7 +94,9 @@ export default function DailyNotes() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await getDailyNotes();
+        const data = await getDailyNotes(token);
+        console.log("Token" , token)
+        console.log(data);
         setNotes(data);
       } catch (error) {
         console.error("Error fetching daily notes:", error);

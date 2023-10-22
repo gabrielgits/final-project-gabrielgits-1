@@ -1,54 +1,59 @@
-const express = require('express');
-const { connectDB } = require('../data/mongodb');
-const {ObjectId} = require('mongodb');
+const express = require("express");
+const { connectDB } = require("../data/mongodb");
+const { ObjectId } = require("mongodb");
 const router = express.Router();
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 const PRIVATE_KEY = "Restaurant-App-2023";
-
 
 let db = null;
 const initiDb = async () => {
   db = await connectDB();
-}
+};
 initiDb();
 
-const COLLECTION_NAME = 'users';
+const COLLECTION_NAME = "users";
 
 const today = new Date();
-const todayDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-
+const todayDate =
+  today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 
 function auth(req, res, next) {
   if (!req.headers.authorization) {
-      res.status(201).send({ success: false, error: "Please provide Authorization" })
+    res
+      .status(201)
+      .send({ success: false, error: "Please provide Authorization" });
   }
   const arr = req.headers.authorization.split(" ");
   if (arr.length !== 2) {
-      res.status(202).send({ success: false, error: "Please use Bearer scheme" })
+    res.status(202).send({ success: false, error: "Please use Bearer scheme" });
   }
   try {
-      const decode = jwt.verify(arr[1], PRIVATE_KEY);
-      if (decode) {
-          next();
-      }
-      else {
-          res.status(203).send({ success: false, error: "Wrong token" })
-      }
+    const decode = jwt.verify(arr[1], PRIVATE_KEY);
+    if (decode) {
+      next();
+    } else {
+      res.status(203).send({ success: false, error: "Wrong token" });
+    }
   } catch (error) {
-      res.status(204).send({ success: false, error: "Wrong token" })
+    res.status(204).send({ success: false, error: "Wrong token" });
   }
 }
 
-router.use('/:userId', auth);
+router.use("/:userId", auth);
 
 // Add user
 router.post("/", async (req, res) => {
   try {
     const { name, phone, address, email, password } = req.body;
     if (!name || !phone || !address || !email || !password) {
-      return res.status(400).json({ success: false, error: 'name, phone, address, email and password are required.' });
+      return res.status(400).json({
+        success: false,
+        error: "name, phone, address, email and password are required.",
+      });
     }
-    const result = await db.collection(COLLECTION_NAME).insertOne({ name, phone, address, email, password });
+    const result = await db
+      .collection(COLLECTION_NAME)
+      .insertOne({ name, phone, address, email, password });
     res.status(200).json({ success: true, data: result });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
@@ -59,7 +64,9 @@ router.post("/", async (req, res) => {
 router.get("/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
-    const user = await db.collection(COLLECTION_NAME).findOne({ _id: new ObjectId(userId) });
+    const user = await db
+      .collection(COLLECTION_NAME)
+      .findOne({ _id: new ObjectId(userId) });
 
     if (!user) {
       return res.status(404).json({ success: false, error: "User not found" });
@@ -77,12 +84,17 @@ router.put("/:userId", async (req, res) => {
     const userId = req.params.userId;
     const { name, phone, email, address } = req.body;
     if (!name || !phone || !email || !address) {
-      return res.status(400).json({ success: false, error: 'name, phone, email and address are required.' });
+      return res.status(400).json({
+        success: false,
+        error: "name, phone, email and address are required.",
+      });
     }
-    const result = await db.collection(COLLECTION_NAME).updateOne(
-      { _id: new ObjectId(userId) },
-      { $set: { name, phone, email, address } }
-    );
+    const result = await db
+      .collection(COLLECTION_NAME)
+      .updateOne(
+        { _id: new ObjectId(userId) },
+        { $set: { name, phone, email, address } }
+      );
     res.status(200).json({ success: true, data: result });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
@@ -95,12 +107,13 @@ router.put("/:userId/password", async (req, res) => {
     const userId = req.params.userId;
     const { password } = req.body;
     if (!password) {
-      return res.status(400).json({ success: false, error: 'password is required.' });
+      return res
+        .status(400)
+        .json({ success: false, error: "password is required." });
     }
-    const result = await db.collection(COLLECTION_NAME).updateOne(
-      { _id: new ObjectId(userId) },
-      { $set: { password } }
-    );
+    const result = await db
+      .collection(COLLECTION_NAME)
+      .updateOne({ _id: new ObjectId(userId) }, { $set: { password } });
     res.status(200).json({ success: true, data: result });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
@@ -112,29 +125,36 @@ router.put("/:userId/password", async (req, res) => {
 // Add Food
 router.post("/:userId/foods", async (req, res) => {
   try {
-    const {name, origin, price, image} = req.body;
+    const { name, origin, price, image } = req.body;
     const _id = new ObjectId();
     const userId = req.params.userId;
     if (!name || !origin || !price || !image) {
-      return res.status(400).json({ success: false, error: 'name, origin, price and image are required.' });
+      return res.status(400).json({
+        success: false,
+        error: "name, origin, price and image are required.",
+      });
     }
-    const result = await db
-      .collection(COLLECTION_NAME)
-      .updateOne(
-        { _id: new ObjectId(userId) },
-        { $push: { foods: { _id, name, origin, price, date: todayDate, image } } }
-      );
+    const result = await db.collection(COLLECTION_NAME).updateOne(
+      { _id: new ObjectId(userId) },
+      {
+        $push: {
+          foods: { _id, name, origin, price, date: todayDate, image },
+        },
+      }
+    );
     res.status(200).send({ success: true, data: result });
   } catch (error) {
     res.status(500).send({ success: false, error: error.message });
   }
-})
+});
 
 // Get Foods
 router.get("/:userId/foods", async (req, res) => {
   try {
     const userId = req.params.userId;
-    const user = await db.collection(COLLECTION_NAME).findOne({ _id: new ObjectId(userId) });
+    const user = await db
+      .collection(COLLECTION_NAME)
+      .findOne({ _id: new ObjectId(userId) });
 
     if (!user) {
       return res.status(404).json({ success: false, error: "User not found" });
@@ -153,13 +173,15 @@ router.get("/:userId/foods/:foodId", async (req, res) => {
   try {
     const userId = req.params.userId;
     const foodId = req.params.foodId;
-    const user = await db.collection(COLLECTION_NAME).findOne({ _id: new ObjectId(userId) });
+    const user = await db
+      .collection(COLLECTION_NAME)
+      .findOne({ _id: new ObjectId(userId) });
 
     if (!user) {
       return res.status(404).json({ success: false, error: "User not found" });
     }
 
-    const food = user.foods.find(food => food._id.toString() === foodId);
+    const food = user.foods.find((food) => food._id.toString() === foodId);
     if (!food) {
       return res.status(404).json({ success: false, error: "Food not found" });
     }
@@ -175,10 +197,12 @@ router.delete("/:userId/foods/:foodId", async (req, res) => {
   try {
     const userId = req.params.userId;
     const foodId = req.params.foodId;
-    const result = await db.collection(COLLECTION_NAME).updateOne(
-      { _id: new ObjectId(userId) },
-      { $pull: { foods: { _id: new ObjectId(foodId) } } }
-    );
+    const result = await db
+      .collection(COLLECTION_NAME)
+      .updateOne(
+        { _id: new ObjectId(userId) },
+        { $pull: { foods: { _id: new ObjectId(foodId) } } }
+      );
 
     res.status(200).json({ success: true, data: result });
   } catch (error) {
@@ -202,7 +226,7 @@ router.put("/:userId/foods/:foodId", async (req, res) => {
           "foods.$.name": name,
           "foods.$.origin": origin,
           "foods.$.price": price,
-        }
+        },
       }
     );
     res.status(200).json({ success: true, data: result });
@@ -219,14 +243,18 @@ router.post("/:userId/notes", async (req, res) => {
     const { header, comment } = req.body;
     const userId = req.params.userId;
     if (!header || !comment) {
-      return res.status(400).json({ success: false, error: 'header and comment are required.' });
+      return res
+        .status(400)
+        .json({ success: false, error: "header and comment are required." });
     }
-    const result = await db
-      .collection(COLLECTION_NAME)
-      .updateOne(
-        { _id: new ObjectId(userId) },
-        { $push: { notes: { _id: new ObjectId(), header, comment, date : todayDate } } }
-      );
+    const result = await db.collection(COLLECTION_NAME).updateOne(
+      { _id: new ObjectId(userId) },
+      {
+        $push: {
+          notes: { _id: new ObjectId(), header, comment, date: todayDate },
+        },
+      }
+    );
     res.status(200).send({ success: true, data: result });
   } catch (error) {
     res.status(500).send({ success: false, error: error.message });
@@ -237,15 +265,16 @@ router.post("/:userId/notes", async (req, res) => {
 router.get("/:userId/notes", async (req, res) => {
   try {
     const userId = req.params.userId;
-    const user = await db.collection(COLLECTION_NAME).findOne({ _id: new ObjectId(userId) });
+    const user = await db
+      .collection(COLLECTION_NAME)
+      .findOne({ _id: new ObjectId(userId) });
 
     if (!user) {
       return res.status(404).json({ success: false, error: "User not found" });
+    } else {
+      const notes = user.notes || [];
+      res.status(200).json({ success: true, data: notes });
     }
-
-    const notes = user.notes || [];
-
-    res.status(200).json({ success: true, data: notes });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -257,7 +286,9 @@ router.get("/:userId/notes/:noteId", async (req, res) => {
     const userId = req.params.userId;
     const noteId = req.params.noteId;
 
-    const user = await db.collection(COLLECTION_NAME).findOne({ _id: new ObjectId(userId) });
+    const user = await db
+      .collection(COLLECTION_NAME)
+      .findOne({ _id: new ObjectId(userId) });
 
     if (!user) {
       return res.status(404).json({ success: false, error: "User not found" });
@@ -281,10 +312,12 @@ router.delete("/:userId/notes/:noteId", async (req, res) => {
     const userId = req.params.userId;
     const noteId = req.params.noteId;
 
-    const result = await db.collection(COLLECTION_NAME).updateOne(
-      { _id: new ObjectId(userId) },
-      { $pull: { notes: { _id: new ObjectId(noteId) } } }
-    );
+    const result = await db
+      .collection(COLLECTION_NAME)
+      .updateOne(
+        { _id: new ObjectId(userId) },
+        { $pull: { notes: { _id: new ObjectId(noteId) } } }
+      );
 
     res.status(200).send({ success: true, data: result });
   } catch (error) {
@@ -299,18 +332,28 @@ router.post("/:userId/orders", async (req, res) => {
     const { customer } = req.body;
     const userId = req.params.userId;
     if (!customer) {
-      return res.status(400).json({ success: false, error: 'customer is required.' });
+      return res
+        .status(400)
+        .json({ success: false, error: "customer is required." });
     }
     const result = await db.collection(COLLECTION_NAME).updateOne(
       { _id: new ObjectId(userId) },
-      { $push: { orders: { _id: new ObjectId(), customer, orderdate : todayDate, orderstatus : "pending" } } }
+      {
+        $push: {
+          orders: {
+            _id: new ObjectId(),
+            customer,
+            orderdate: todayDate,
+            orderstatus: "pending",
+          },
+        },
+      }
     );
     res.status(200).send({ success: true, data: result });
   } catch (error) {
     res.status(500).send({ success: false, error: error.message });
   }
-
-})
+});
 
 //Add Foods to Order
 // Add Foods to Order
@@ -347,7 +390,9 @@ router.put("/:userId/orders/:orderId/foods", async (req, res) => {
 router.get("/:userId/orders", async (req, res) => {
   try {
     const userId = req.params.userId;
-    const user = await db.collection(COLLECTION_NAME).findOne({ _id: new ObjectId(userId) });
+    const user = await db
+      .collection(COLLECTION_NAME)
+      .findOne({ _id: new ObjectId(userId) });
 
     if (!user) {
       return res.status(404).json({ success: false, error: "User not found" });
@@ -360,7 +405,6 @@ router.get("/:userId/orders", async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 });
-
 
 // Get Order by Id
 router.get("/:userId/orders/:orderId", async (req, res) => {
