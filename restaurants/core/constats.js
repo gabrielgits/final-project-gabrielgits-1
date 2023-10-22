@@ -1,2 +1,2 @@
-export const constServer = 'http://localhost:5001/users';
+export const constServer = 'http://localhost:5001';
 export const constLoginKey = 'LoginKey';

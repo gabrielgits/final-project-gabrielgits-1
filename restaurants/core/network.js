@@ -60,7 +60,7 @@ export async function signup(user) {
 
 export async function getFoodList(token, userId) {
   try {
-    const ret = await fetch(constServer + '/' + userId + '/foods', {
+    const ret = await fetch(constServer + '/users/' + userId + '/foods', {
       method: "GET",
       headers: {
         "content-type": "application/json",
@@ -77,7 +77,7 @@ export async function getFoodList(token, userId) {
 
 export async function addFood(food, token, userId) {
   try {
-    const ret = await fetch(constServer + '/' + userId + '/foods', {
+    const ret = await fetch(constServer + '/users/' + userId + '/foods', {
       method: "POST",
       body: food,
       headers: {
@@ -96,7 +96,7 @@ export async function addFood(food, token, userId) {
 
 export async function deleteFood(foodId, token, userId) {
   try {
-    const ret = await fetch(constServer + '/' + userId + '/foods/'+foodId, {
+    const ret = await fetch(constServer + '/users/' + userId + '/foods/'+foodId, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
@@ -112,7 +112,7 @@ export async function deleteFood(foodId, token, userId) {
 
 export async function editFood(food, token, userId) {
   try {
-    const ret = await fetch(constServer + '/' + userId + '/foods/'+food._id, {
+    const ret = await fetch(constServer + '/users/' + userId + '/foods/'+food._id, {
       method: "PUT",
       body: food,
       headers: {
