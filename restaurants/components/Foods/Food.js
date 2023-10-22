@@ -3,9 +3,12 @@ import { Alert, View, Text, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from '../../styles/appStyles';
 import { deleteFood } from '../../core/network';
+import GlobalContext from '../../core/context';
 
 const Food = ({ food, onRefresh }) => {
     const { index, _id, name, price } = food;
+
+    const {globalState, setGlobalState}=useContext(GlobalContext);
 
     const navigation = useNavigation();
 
@@ -32,7 +35,7 @@ const Food = ({ food, onRefresh }) => {
         //   },
         // ]);
 
-        await deleteFood(_id);
+        await deleteFood(_id, globalState.login.token, globalState.login.userId);
         onRefresh()
 
     }

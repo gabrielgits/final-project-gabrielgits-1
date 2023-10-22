@@ -16,7 +16,7 @@ const Tab = createBottomTabNavigator();
 export default function App() {
 
   const [globalState, setGlobalState] = useState({
-    login: null
+    login: null // login = {success: true, token, userId};
   });
 
   React.useEffect(() => {
@@ -29,7 +29,7 @@ export default function App() {
 
   if (!globalState.login) {
     return (
-      <GlobalContext.Provider value={{globalState, setGlobalState}}>
+      <GlobalContext.Provider value={{ globalState, setGlobalState }}>
         <NavigationContainer>
           <AuthScreen />
         </NavigationContainer>
@@ -38,45 +38,45 @@ export default function App() {
   }
 
   return (
-    <GlobalContext.Provider value={{globalState, setGlobalState}}>
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          headerStyle: { backgroundColor: "#0066CC" },
-          headerTintColor: "#ccc",
-        }}
-      >
-        <Tab.Screen
-          name="foods"
-          component={FoodsScreen}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="home" color={color} size={26} />
-            ),
+    <GlobalContext.Provider value={{ globalState, setGlobalState }}>
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: "#0066CC" },
+            headerTintColor: "#ccc",
           }}
-        />
-        <Tab.Screen
-          name="dailylist"
-          component={DailyScreen}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons
-                size={24}
-                color={color}
-                name={"note-plus"}
-              />
+        >
+          <Tab.Screen
+            name="foods"
+            component={FoodsScreen}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ color }) => (
+                <MaterialCommunityIcons name="home" color={color} size={26} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="dailylist"
+            component={DailyScreen}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ color }) => (
+                <MaterialCommunityIcons
+                  size={24}
+                  color={color}
+                  name={"note-plus"}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen name="profile" component={ProfileScreen} options={{
+            headerShown: false, tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="account" color={color} size={26} />
             ),
-          }}
-        />
-                <Tab.Screen name="profile" component={ProfileScreen} options={{
-          headerShown: false, tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
-          ),
-        }} />
-      </Tab.Navigator>
-    </NavigationContainer>
+          }} />
+        </Tab.Navigator>
+      </NavigationContainer>
     </GlobalContext.Provider>
   );
 }

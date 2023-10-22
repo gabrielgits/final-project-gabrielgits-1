@@ -22,11 +22,13 @@ export default function Signup() {
 
     const signupHandle = async () => {
         const obj = await signup({...state});
-        if (obj.success) {
+        if ( obj && obj.success) {
+            // obj = {success: true, token, userId};;
             await setLocalUser(obj);
             setGlobalState({ ...globalState, login: obj });
         } else {
             Alert.alert(obj.error);
+            console.log(obj.error)
         }
     }
 
@@ -51,9 +53,9 @@ export default function Signup() {
                 <TextInput style={styles.input} placeholder="Address"
                     value={state.address} onChangeText={(text) => setState({ ...state, address: text })} />
                 <TextInput style={styles.input} placeholder="Password"
-                    value={state.password} onChangeText={(text) => setState({ ...state, password: text })} />
+                    value={state.password} secureTextEntry={true} onChangeText={(text) => setState({ ...state, password: text })} />
                 <TextInput style={styles.input} placeholder="Confirm Password"
-                    value={state.confirmPassword} onChangeText={(text) => setState({ ...state, confirmPassword: text })} />
+                    value={state.confirmPassword} secureTextEntry={true} onChangeText={(text) => setState({ ...state, confirmPassword: text })} />
                 <Button title="Signup" onPress={signupHandle} />
                 <Text style={{
                     margin: 20,

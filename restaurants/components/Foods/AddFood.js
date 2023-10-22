@@ -7,7 +7,7 @@ import GlobalContext from "../../core/context";
 
 export default function AddFood() {
 
-    //const {globalstate, setGlobalState}=useContext(GlobalContext);
+    const {globalState, setGlobalState}=useContext(GlobalContext);
 
     const navigation = useNavigation();
     const [state, setState] = useState(
@@ -40,7 +40,7 @@ export default function AddFood() {
                 return;
             }
 
-            const ret = await addFood(state);
+            const ret = await addFood(state, globalState.login.token, globalState.login.userId);
 
             onRefresh(); // reload FoodList component            
             navigation.goBack();

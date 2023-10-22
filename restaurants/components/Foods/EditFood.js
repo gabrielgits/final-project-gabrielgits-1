@@ -3,8 +3,11 @@ import React, { useState } from "react";
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { editFood } from "../../core/network";
 import styles from "../../styles/appStyles";
+import GlobalContext from "../../core/context";
 
 export default function EditFood() {
+    const {globalState, setGlobalState}=useContext(GlobalContext);
+
     const navigation = useNavigation();
     const route = useRoute();
     const { food, onRefresh } = route.params;
@@ -22,7 +25,7 @@ export default function EditFood() {
     const handleSubmit = async () => {
         try {
             //console.log(state)
-            await editFood(state);
+            await editFood(state, globalState.login.token, globalState.login.userId);
             onRefresh();
             navigation.goBack()
         } catch (error) {

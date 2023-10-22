@@ -5,8 +5,8 @@ export default function ProfileScreen() {
 
     return (
         <Stack.Navigator 
-        initialRouteName="viewprofile">
-            <Stack.Screen name="login" component={ViewProfile}  />
+        initialRouteName="ViewProfile">
+            <Stack.Screen name="ViewProfile" component={ViewProfile}  />
         </Stack.Navigator>
     );
 }
