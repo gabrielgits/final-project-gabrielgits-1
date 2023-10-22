@@ -1,3 +1,6 @@
+import { Alert } from "react-native";
+import { constServer } from "./constats";
+
 export default {};
 
 function formatDateToMMDDYYYY(date) {
@@ -16,6 +19,45 @@ let foods = [
 
 ]
 
+export async function login(email, password) {
+   
+    try {
+       
+        const ret = await fetch(constServer + "/login", {
+            method: "POST",
+            body: JSON.stringify({
+                email,
+                password
+            }),
+            headers: {
+                "content-type": "application/json",
+            }
+        });
+        
+        const obj = await ret.json();
+        return obj;
+    } catch (error) {
+        Alert.alert(error.message);
+        return { success: false, error: error.message };
+    }
+}
+
+export async function signup(user) {
+    try {
+        const ret = await fetch(constServer + "/signup/", {
+            method: "POST",
+            body: JSON.stringify(user),
+            headers: {
+                "content-type": "application/json",
+            }
+        });
+        const obj = await ret.json();
+        return obj;
+    } catch (error) {
+        Alert.alert(error.message);
+    }
+}
+    
 export async function getFoodList() {
 
     try {
@@ -80,3 +122,4 @@ export async function addFood(food) {
         throw error;
     }
 }
+
