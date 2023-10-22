@@ -1,5 +1,3 @@
-
-
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import DailyScreen from "./screens/DailyScreen";
 import { NavigationContainer } from '@react-navigation/native';

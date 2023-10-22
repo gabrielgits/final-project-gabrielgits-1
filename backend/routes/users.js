@@ -6,8 +6,6 @@ const jwt = require("jsonwebtoken");
 //const cors = require('cors');
 const PRIVATE_KEY = "Restaurant-App-2023";
 
-
-
 let db = null;
 const initiDb = async () => {
   db = await connectDB();
@@ -221,7 +219,7 @@ router.put("/:userId/foods/:foodId", async (req, res) => {
     const userId = req.params.userId;
     const foodId = req.params.foodId;
     const { name, origin, price, image, date } = req.body;
-    console.log('Im edit: ',req.body)
+    //console.log('Im edit: ',req.body)
 
     const result = await db.collection(COLLECTION_NAME).updateOne(
       {
