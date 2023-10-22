@@ -22,7 +22,7 @@ export default function FoodList() {
     useEffect(() => {
         try {
             async function getData() {
-                const ret = await getFoodList(globalState.login);
+                const ret = await getFoodList(globalState.login.token, globalState.login.userId);
                 if (ret && ret.success) {
                     setFood(ret.data);
                 }

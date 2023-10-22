@@ -28,6 +28,7 @@ export default function Signup() {
             setGlobalState({ ...globalState, login: obj });
         } else {
             Alert.alert(obj.error);
+            console.log(obj.error)
         }
     }
 
