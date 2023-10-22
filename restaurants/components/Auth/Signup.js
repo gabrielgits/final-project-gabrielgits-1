@@ -1,10 +1,11 @@
 
 import React, { useContext, useState } from 'react';
 import styles from '../../styles/general';
-import { Button, View, TextInput, Text } from 'react-native';
+import { Button, View, TextInput, Text, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { signup } from '../../core/network';
 import GlobalContext from '../../core/context';
+import { setLocalUser } from '../../core/storage';
 
 export default function Signup() {
     const [state, setState] = useState({
@@ -22,8 +23,8 @@ export default function Signup() {
     const signupHandle = async () => {
         const obj = await signup({...state});
         if (obj.success) {
-            await setLocalUser(obj.data);
-            setGlobalState({ ...globalState, login: obj.data });
+            await setLocalUser(obj);
+            setGlobalState({ ...globalState, login: obj });
         } else {
             Alert.alert(obj.error);
         }

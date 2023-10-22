@@ -7,8 +7,8 @@ import { setLocalUser } from '../../core/storage';
 import GlobalContext from '../../core/context';
 
 export default function Login() {
-    const [email, setEmail] = useState("prof1@gmail.com");
-    const [password, setPassword] = useState("12345");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const {globalState, setGlobalState} = useContext(GlobalContext);
 
     const navigation = useNavigation();
