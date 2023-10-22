@@ -8,13 +8,14 @@ function AddNotes({ navigation }) {
   const [comment, setComment] = useState('');
   const [date, setDate] = useState('');
   const [refresh, setRefresh] = useState(false);
-  const { globalState } = useContext(GlobalContext)
-  const token = globalState.login.token
+  const { globalState } = useContext(GlobalContext);
+  const token = globalState.login.token;
+  const userId = globalState.login.userId;
 
-  
   const onRefresh = () => {
     setRefresh(!refresh);
   };
+
   const addNote = async () => {
     const noteData = {
       header,
@@ -22,10 +23,11 @@ function AddNotes({ navigation }) {
       date,
     };
 
-    const isNoteAdded = await addNoteToDB(noteData, token);
+    const isNoteAdded = await addNoteToDB(token, userId, noteData);
 
     if (isNoteAdded) {
-           navigation.navigate('notelist');
+      onRefresh(); // Manually trigger the refresh
+      navigation.navigate('notelist');
     } else {
       console.error('Failed to add note.');
     }
@@ -56,7 +58,7 @@ function AddNotes({ navigation }) {
         <Button title="Add" onPress={addNote} />
         <Button
           title="Cancel"
-          onPress={() => navigation.navigate('notelist', {onRefresh})}
+          onPress={() => navigation.navigate('notelist')}
         />
       </View>
     </View>
@@ -88,7 +90,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: '100%',
   },
-
 });
 
 export default AddNotes;

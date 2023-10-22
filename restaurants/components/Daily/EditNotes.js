@@ -11,16 +11,17 @@ function EditNotes({ route, navigation }) {
   
   const { globalState } = useContext(GlobalContext);
   const token = globalState.login.token;
+  const userId = globalState.login.userId;
 
   const saveNote = async () => {
     const updatedNote = { ...note, header, date, comment };
-    const isNoteUpdated = await editDailyNote(updatedNote, token);
+    const isNoteUpdated = await editDailyNote(token, userId, updatedNote);
     if (isNoteUpdated) {
       navigation.navigate('notedetails', { note: updatedNote });
     } else {
       console.error('Failed to update note.');
     }
-  };
+  }
 
   return (
     <View style={styles.container}>

@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Alert, View, Text, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from '../../styles/appStyles';
 import { deleteNote } from '../../core/network';
+import GlobalContext from '../../core/context';
+
 
 
 const ViewDaily = ({ note, onRefresh }) => {
     const { index, _id, header, date, comment } = note;
 
     const navigation = useNavigation();
+    const { globalState } = useContext(GlobalContext);
+    const token = globalState.login.token
+    const userId = globalState.login.userId
 
     const handleDetail = () => {
         navigation.navigate('notedetails', { note })
@@ -19,7 +24,7 @@ const ViewDaily = ({ note, onRefresh }) => {
     }
 
     const handleDelete = async () => {
-        Alert.alert('Confirm Delete', 'Are you sure you want to delete this note?', [
+        confirm('Confirm Delete', 'Are you sure you want to delete this note?', [
           {
             text: 'Cancel',
             onPress: () => console.log('Cancel Pressed'),
@@ -27,7 +32,8 @@ const ViewDaily = ({ note, onRefresh }) => {
           {
             text: 'OK',
             onPress: async () => {
-              const isDeleted = await deleteNote(_id, token);
+              console.log(token, userId, _id)
+              const isDeleted = await deleteNote(token, userId, _id);
               if (isDeleted) {
                 onRefresh();
               } else {

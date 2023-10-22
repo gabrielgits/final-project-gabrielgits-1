@@ -1,62 +1,10 @@
-// // // components/NoteDetails.js
-// // import React from 'react';
-// // import { View, Text, Button } from 'react-native';
-
-
-// // function NoteDetails({ route, navigation }) {
-// //   const { note } = route.params;
-// //   const deleteNote = () => {
-// //     navigation.navigate('notelist');
-// //   };
-
-// //   return (
-// //     <View>
-// //       <Text>Header: {note.header}</Text>
-// //       <Text>Date: {note.date.toDateString()}</Text>
-// //       <Text>Comment: {note.comment}</Text>
-// //       <Button title="Delete" onPress={deleteNote} />
-// //       <Button title="Go Back" onPress={() => navigation.navigate('notelist')} />
-// //     </View>
-// //   );
-// // }
-
-// // export default NoteDetails;
-
-
-// import React from 'react';
-// import { View, Text, Button } from 'react-native';
-
-// function NoteDetails({ route, navigation }) {
-//   const { note } = route.params;
-//   const deleteNote = () => {
-//     navigation.navigate('NoteList');
-//   };
-
-//   // Ensure that note.date is a Date object or parse it into a Date object
-//   const noteDate = new Date(note.date);
-
-//   return (
-//     <View>
-//       <Text>Header: {note.header}</Text>
-//       <Text>Date: {noteDate.toDateString()}</Text> {/* Use noteDate instead of note.date */}
-//       <Text>Comment: {note.comment}</Text>
-//       <Button title="Delete" onPress={deleteNote} />
-//       <Button title="Go Back" onPress={() => navigation.navigate('NoteList')} />
-//     </View>
-//   );
-// }
-
-// export default NoteDetails;
-
-
-
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
 function NoteDetails({ route, navigation }) {
   const { note } = route.params;
   const deleteNote = () => {
-    navigation.navigate('NoteList');
+    navigation.navigate('notelist');
   };
 
   // Ensure that note.date is a Date object or parse it into a Date object

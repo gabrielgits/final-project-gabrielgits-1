@@ -8,9 +8,8 @@ const Stack = createNativeStackNavigator();
 export default function DailyScreen() {
 
     return (
-        <Stack.Navigator 
-        initialRouteName="notelist">
-            <Stack.Screen name="notelist" component={NoteList} options={{headerShown:false }} />
+        <Stack.Navigator >
+            <Stack.Screen name="notelist" component={NoteList} />
             <Stack.Screen name="addnote" component={AddNotes} options={{ title: 'Add Notes' }} />
             <Stack.Screen name="editnote" component={EditNotes} options={{ title: 'Edit Notes'}} />
             <Stack.Screen name="notedetails" component={NoteDetails} options={{ title: 'Note Details'}} />
