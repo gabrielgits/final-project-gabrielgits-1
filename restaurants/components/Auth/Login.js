@@ -15,7 +15,7 @@ export default function Login() {
 
     const loginHandle = async () => {
         const obj = await login(email, password);
-        if (obj.success) {
+        if (obj && obj.success) {
             // obj = {success: true, token, userId};
             await setLocalUser(obj);
             setGlobalState({ ...globalState, login: obj });
