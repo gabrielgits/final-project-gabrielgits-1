@@ -4,21 +4,12 @@ import { useNavigation } from '@react-navigation/native';
 import styles from '../../styles/appStyles';
 import GlobalContext from '../../core/context';
 
-const Food = ({ food, onRefresh }) => {
+const CartItem = ({ food }) => {
     const { index, _id, name, price } = food;
     const { globalState, setGlobalState } = useContext(GlobalContext);
-
     const navigation = useNavigation();
-    const [qtyText, setQtyText] = useState('');
-    //console.log(food)
-
-    const handleAddCart = () => {    
-        const newCart = [...globalState.cart, food];    
-        console.log('QQQ', food, newCart)
-       
-        setGlobalState({...globalState, cart: newCart})
-        //onRefresh();
-        console.log(globalState)
+    const handleRemove = () => {    
+        
     }
 
     return (
@@ -28,22 +19,13 @@ const Food = ({ food, onRefresh }) => {
                 <View style={styles.name}>
                     <Text>Name: {name}</Text>
                     <Text>Price: {price}</Text>
-                </View>
-                <View>
-                    <TextInput
-                        style={styles.inputshort}
-                        placeholder='Qty'
-                        keyboardType="numeric"
-                        onChangeText={(text) => setQtyText(text)}
-                        value={qtyText}>
-                    </TextInput>
-                </View>
+                </View>                
                 <View style={styles.edges}>
                     <TouchableHighlight
-                        onPress={handleAddCart}
+                        onPress={handleRemove}
                         style={styles.button}
                         underlayColor="#5398DC">
-                        <Text style={styles.buttonText}>Add to Cart</Text>
+                        <Text style={styles.buttonText}>Remove</Text>
                     </TouchableHighlight>
                 </View>
             </View>
@@ -51,4 +33,4 @@ const Food = ({ food, onRefresh }) => {
     );
 };
 
-export default Food;
+export default CartItem;
