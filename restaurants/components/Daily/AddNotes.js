@@ -1,33 +1,25 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet} from 'react-native';
 import { addNoteToDB } from '../../core/network';
 import GlobalContext from '../../core/context';
+import { useRoute } from '@react-navigation/native';
 
 function AddNotes({ navigation }) {
-  const [header, setHeader] = useState('');
-  const [comment, setComment] = useState('');
-  const [date, setDate] = useState('');
-  const [refresh, setRefresh] = useState(false);
   const { globalState } = useContext(GlobalContext);
   const token = globalState.login.token;
   const userId = globalState.login.userId;
+  const [note, setNote] = useState({ header: '', comment: '', date: '' });
 
-  const onRefresh = () => {
-    setRefresh(!refresh);
-  };
+
+  const route = useRoute();
+  const { onRefresh } = route.params;
+
 
   const addNote = async () => {
-    const noteData = {
-      header,
-      comment,
-      date,
-    };
-
-    const isNoteAdded = await addNoteToDB(token, userId, noteData);
-
+    const isNoteAdded = await addNoteToDB(token, userId, note);
     if (isNoteAdded) {
-      onRefresh(); // Manually trigger the refresh
-      navigation.navigate('notelist');
+         onRefresh();
+      navigation.goBack();
     } else {
       console.error('Failed to add note.');
     }
@@ -39,20 +31,20 @@ function AddNotes({ navigation }) {
       <TextInput
         style={styles.input}
         placeholder="Header"
-        value={header}
-        onChangeText={(text) => setHeader(text)}
+        value={note.header}
+        onChangeText={(text) => setNote({ ...note, header: text })}
       />
       <TextInput
         style={styles.input}
         placeholder="Comment"
-        value={comment}
-        onChangeText={(text) => setComment(text)}
+        value={note.comment}
+        onChangeText={(text) => setNote({ ...note, comment: text })}
       />
       <TextInput
         style={styles.input}
         placeholder="Date"
-        value={date}
-        onChangeText={(text) => setDate(text)}
+        value={note.date}
+        onChangeText={(text) => setNote({ ...note, date: text })}
       />
       <View style={styles.buttonContainer}>
         <Button title="Add" onPress={addNote} />
