@@ -1,8 +1,6 @@
-import React, { useState, useContext } from 'react';
-import { Alert, View, Text,TextInput, TouchableHighlight } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { View, Text,TouchableHighlight } from 'react-native';
 import styles from '../../styles/appStyles';
-import GlobalContext from '../../core/context';
 
 const AddCart = ({ food, foodAddToCart }) => {
 

@@ -251,3 +251,40 @@ export async function deleteNote(token, userId, noteId) {
     return false;
   }
 }
+
+
+export async function addCustomer(customer, token, userId) {
+  try {
+    const ret = await fetch(constServer + '/users/' + userId + '/orders', {
+      method: "POST",
+      body: JSON.stringify(customer),
+      headers: {
+        "content-type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+    });
+    const obj = await ret.json();
+    //console.log(obj)
+    return { success: true };
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function addOrder(order, token, userId) {
+  try {
+    const ret = await fetch(constServer + '/users/' + userId + '/orders', {
+      method: "POST",
+      body: JSON.stringify(order),
+      headers: {
+        "content-type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+    });
+    const obj = await ret.json();
+    //console.log(obj)
+    return { success: true };
+  } catch (error) {
+    throw error;
+  }
+}

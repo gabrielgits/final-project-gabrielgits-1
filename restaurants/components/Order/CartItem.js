@@ -5,7 +5,7 @@ import styles from '../../styles/appStyles';
 import GlobalContext from '../../core/context';
 
 const CartItem = ({ food }) => {
-    const { index, _id, name, price } = food;
+    const { index, _id, name, price, qty } = food;
     const { globalState, setGlobalState } = useContext(GlobalContext);
     const navigation = useNavigation();
     const handleRemove = () => {    
@@ -19,6 +19,7 @@ const CartItem = ({ food }) => {
                 <View style={styles.name}>
                     <Text>Name: {name}</Text>
                     <Text>Price: {price}</Text>
+                    <Text>Quantity: {qty}</Text>
                 </View>                
                 <View style={styles.edges}>
                     <TouchableHighlight

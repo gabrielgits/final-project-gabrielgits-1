@@ -7,7 +7,7 @@ import GlobalContext from '../../core/context';
 
 export default function CartList() {
 
-    const { globalState, setGlobalState } = useContext(GlobalContext); 
+    const { globalState, setGlobalState } = useContext(GlobalContext);
 
     const [searchText, setSearchText] = useState('');
     const [state, setState] = useState({
@@ -17,18 +17,24 @@ export default function CartList() {
     const navigation = useNavigation();
 
     const handleReviewCart = () => {
-        navigation.navigate('reviewcart', { cart: state.cart, custumerName: state.custumerName });
+        navigation.navigate('reviewcart', { cart: state.cart, custumerName: searchText });
     }
 
     const foodAddToCart = (food) => {
-        const foodFind = state.cart.find((item) => item._id === food._id);
-        if (foodFind) {
-            foodFind.qty = foodFind.qty + 1;
-            setState({ ...state, cart: [...state.cart, foodFind] });
-            return;
+        const foodIndex = state.cart.findIndex((item) => item._id === food._id);
+
+        if (foodIndex !== -1) {
+            const updatedCart = [...state.cart];
+            updatedCart[foodIndex] = {
+                ...updatedCart[foodIndex],
+                qty: updatedCart[foodIndex].qty + 1
+            };
+            setState({ ...state, cart: updatedCart });
+        } else {
+            setState({ ...state, cart: [...state.cart, { ...food, qty: 1 }] });
         }
-        setState({ ...state, cart: [...state.cart, food] });
     }
+
 
     return (
         <SafeAreaView
@@ -42,17 +48,17 @@ export default function CartList() {
             <View style={{ flex: 0.8 }}>
                 <TextInput
                     style={styles.input}
-                    placeholder='Customer Name'
+                    placeholder='Enter Customer Name'
                     onChangeText={(text) => setSearchText(text)}
                     value={searchText}>
                 </TextInput>
-                 <FlatList
+                <FlatList
                     data={globalState.foods}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item, index }) => (<AddCart food={{...item, index}} foodAddToCart={foodAddToCart}/>
+                    renderItem={({ item, index }) => (<AddCart food={{ ...item, index }} foodAddToCart={foodAddToCart} />
                     )}
                 />
-                
+
             </View>
         </SafeAreaView>
 

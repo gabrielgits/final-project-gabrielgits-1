@@ -2,8 +2,6 @@ import React, { useContext,useState, useEffect } from 'react';
 import { View, Text, Pressable, FlatList } from 'react-native'
 import styles from '../../styles/appStyles';
 import CartItem from './CartItem';
-import GlobalContext from '../../core/context';
-import { useNavigation } from '@react-navigation/native';
 
 export default function ReviewCart({route: {params}}) {
 
@@ -12,13 +10,18 @@ export default function ReviewCart({route: {params}}) {
         custumerName: params.custumerName,
     });
 
+    console.log(state.custumerName)
+
     const handleSubmit=()=>{
 
     }
 
     return (
         <View style={styles.container}>
-            <View style={styles.infoHeader}>                
+            <View style={styles.infoHeader}>
+                <View>
+                    <Text style={styles.title}>Customer: {params.custumerName}</Text>
+                </View>                
                 <View>
                     <FlatList
                         data={state.cart}
