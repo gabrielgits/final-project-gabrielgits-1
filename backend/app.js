@@ -78,15 +78,10 @@ app.post('/signup', async (req, res) => {
             return res.status(409).json({ success: false, error: 'User already exists' });
         }
 
-        const plainPassword = password; // Replace with the actual password
-
-        // Generate a salt
-        const saltRounds = 10; // You can adjust the number of rounds; a higher number is more secure but slower
+        const plainPassword = password;
+        const saltRounds = 10;
         const salt = await bcrypt.genSalt(saltRounds);
-
-        // Hash the password with the salt
         const hashedPassword = await bcrypt.hash(plainPassword, salt);
-
         password=hashedPassword;
 
 

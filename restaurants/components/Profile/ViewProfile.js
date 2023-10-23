@@ -32,13 +32,19 @@ export default function ViewProfile() {
         setGlobalState({ ...globalState, login: null });
     }
 
+    const updateHandle = (user) => {
+        setUser(user);        
+    }
+
     const goToChangeProfile = () => {
-        navigation.navigate("EditProfile");
+        navigation.navigate("EditProfile", { user, updateHandle });
     }
 
     const goToChangePassword = () => {
-        navigation.navigate("changePassword", { user });
+        navigation.navigate("EditPassword");
     }
+
+
 
     return (
         <View style={styles.Container}>

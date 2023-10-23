@@ -3,6 +3,7 @@ const { connectDB } = require("../data/mongodb");
 const { ObjectId } = require("mongodb");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
 //const cors = require('cors');
 const PRIVATE_KEY = "Restaurant-App-2023";
 
@@ -108,12 +109,31 @@ router.put("/:userId", async (req, res) => {
 router.put("/:userId/password", async (req, res) => {
   try {
     const userId = req.params.userId;
-    const { password } = req.body;
-    if (!password) {
+    const { oldPassword, password } = req.body;
+
+    if (!password || !oldPassword) {
       return res
         .status(400)
-        .json({ success: false, error: "password is required." });
+        .json({ success: false, error: "password and oldPassword are required." });
     }
+
+    const plainPassword = password;
+    const plainOldPassword = oldPassword;
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await bcrypt.hash(plainPassword, salt);
+    const hashedOldPassword = await bcrypt.hash(plainOldPassword, salt);
+    password=hashedPassword;
+    oldPassword=hashedOldPassword;
+
+    const user = await db
+      .collection(COLLECTION_NAME)
+      .findOne({ _id: new ObjectId(userId), password: oldPassword });
+
+    if (!user) {
+      return res.status(404).json({ success: false, error: "User not found" });
+    }
+
     const result = await db
       .collection(COLLECTION_NAME)
       .updateOne({ _id: new ObjectId(userId) }, { $set: { password } });

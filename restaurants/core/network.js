@@ -58,6 +58,40 @@ export async function signup(user) {
   }
 }
 
+export async function editUser(token, userId, user) {
+  try {
+    const ret = await fetch(constServer + "/users/" + userId, {
+      method: "PUT",
+      body: JSON.stringify(user),
+      headers: {
+        "content-type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+    const obj = await ret.json();
+    return obj;
+  } catch (error) {
+    Alert.alert(error.message);
+  }
+}
+
+export async function changePassword(token, userId, passwords) {
+  try {
+    const ret = await fetch(constServer + "/users/" + userId + "/password", {
+      method: "PUT",
+      body: JSON.stringify(passwords),
+      headers: {
+        "content-type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+    const obj = await ret.json();
+    return obj;
+  } catch (error) {
+    Alert.alert(error.message);
+  }
+}
+
 export async function getFoodList(token, userId) {
   try {
     const ret = await fetch(constServer + "/users/" + userId + "/foods", {
