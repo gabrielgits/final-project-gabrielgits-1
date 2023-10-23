@@ -1,55 +1,63 @@
-import { getFoodList } from '../../core/network';
-import { useEffect, useState, useContext } from 'react';
-import { SafeAreaView, FlatList, Pressable, Text, View, TextInput } from 'react-native';
-import styles from '../../styles/appStyles';
-import Food from '../Order/Food';
+import React, { useState, useContext } from 'react';
+import { Alert, View, Text,TextInput, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import styles from '../../styles/appStyles';
 import GlobalContext from '../../core/context';
 
-export default function AddCart() {
+const AddCart = ({ food, onRefresh }) => {
+    const { index, _id, name, price } = food;
+    const { globalState, setGlobalState } = useContext(GlobalContext);
 
-    const { globalState, setGlobalState } = useContext(GlobalContext); // get token
-
-    const [searchText, setSearchText] = useState('');
-    const [cart, setCart] = useState([]);
-    const [refresh, setRefresh] = useState(false); //handle Food list refresh by this state change
     const navigation = useNavigation();
+    const [qtyText, setQtyText] = useState('');
+    //console.log(food)
 
-    const onRefresh = () => {
-        setRefresh(!refresh)
-    }
+    const handleAddCart = () => {
 
-    const handleAddFood = () => {
-        navigation.navigate('addfood', { onRefresh })
+        food.qty=qtyText;   
+        //console.log(food) 
+        const newCart = [...globalState.cart, food];      
+        setGlobalState({...globalState, cart: newCart})
+        const filtredFoods=[...globalState.foods];
+        console.log(filtredFoods)
+
+        const flist=filtredFoods.filter((i)=>i._id!==food._id)
+        //console.log(flist)
+
+        setGlobalState({...globalState, foods: flist})
+
+        onRefresh();
+        console.log(globalState.cart)
     }
 
     return (
-        <SafeAreaView
-            style={styles.root}>
-            <View style={{ flex: 0.2 }}>
-                <Pressable style={styles.cartButton} >
-                    <Text style={styles.submitButtonText} onPress={handleAddFood} >Cart(0)</Text>
-                </Pressable>
-                <Text style={styles.title}> My Cart</Text>
-            </View >
-            <View style={{ flex: 0.8 }}>
-                <TextInput
-                    style={styles.input}
-                    placeholder='Customer Name'
-                    onChangeText={(text) => setSearchText(text)}
-                    value={searchText}>
-                </TextInput>
-                {searchText.length>0 && <FlatList
-                    data={globalState.foods}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item, index }) => (<Food food={{ ...item, index }} onRefresh={onRefresh} />
-                    )}
-                />}
-                
+        <View
+            style={{ backgroundColor: index % 2 === 0 ? 'white' : '#F3F3F7' }}>
+            <View style={styles.row}>
+                <View style={styles.name}>
+                    <Text>Name: {name}</Text>
+                    <Text>Price: {price}</Text>
+                </View>
+                <View>
+                    <TextInput
+                        style={styles.inputshort}
+                        placeholder='Qty'
+                        keyboardType="numeric"
+                        onChangeText={(text) => setQtyText(text)}
+                        value={qtyText}>
+                    </TextInput>
+                </View>
+                <View style={styles.edges}>
+                    <TouchableHighlight
+                        onPress={handleAddCart}
+                        style={styles.button}
+                        underlayColor="#5398DC">
+                        <Text style={styles.buttonText}>Add</Text>
+                    </TouchableHighlight>
+                </View>
             </View>
-        </SafeAreaView>
+        </View>
+    );
+};
 
-    )
-}
-
-
+export default AddCart;

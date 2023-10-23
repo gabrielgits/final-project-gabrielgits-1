@@ -120,7 +120,7 @@ export async function addFood(food, token, userId) {
       },
     });
     const obj = await ret.json();
-    console.log(obj)
+    //console.log(obj)
     return { success: true };
   } catch (error) {
     throw error;
