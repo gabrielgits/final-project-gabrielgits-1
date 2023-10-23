@@ -44,13 +44,15 @@ export default function ViewProfile() {
         navigation.navigate("EditPassword");
     }
 
-
-
+    const imageUrl = "https://picsum.photos/150";
+    if (user.image != null && user.image.length > 8) {
+        imageUrl = user.image;
+    }
     return (
         <View style={styles.Container}>
             <View style={styles.body} >
                 <View style={styles.header}>
-                    <Image source={{ uri: "https://picsum.photos/150" }} style={styles.image} />
+                    <Image source={{ uri: imageUrl }} style={styles.image} />
                     <Text style={styles.title} >{user.name}</Text>
                 </View>
                 <Text style={styles.text}>Email: {user.email}</Text>
