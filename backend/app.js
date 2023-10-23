@@ -3,6 +3,9 @@ const cors = require('cors');
 const usersRouter = require('./routes/users');
 const { connectDB } = require('./data/mongodb');
 const jwt = require("jsonwebtoken")
+const multer = require('multer');
+const { encriptText, encriptCompare } = require('./data/encript');
+const upload = multer({ dest: 'uploads/' });
 const PRIVATE_KEY = "Restaurant-App-2023";
 const COLLECTION_NAME = 'users';
 
@@ -11,8 +14,6 @@ const port = process.env.PORT || 5001;
 
 app.use(express.json());
 app.use(cors());
-
-const bcrypt = require('bcrypt');
 
 
 // // Configure CORS with specific origins
@@ -44,16 +45,9 @@ app.post('/login', async (req, res) => {
             return res.status(404).json({ success: false, error: 'User not found' });
         }
 
-        const plainPassword = password; // Replace with the actual password
+        const comparePassword = await encriptCompare(password, user.password);
 
-        // Generate a salt
-        const saltRounds = 10; // You can adjust the number of rounds; a higher number is more secure but slower
-        const salt = await bcrypt.genSalt(saltRounds);
-
-        // Hash the password with the salt
-        const hashedPassword = await bcrypt.hash(plainPassword, salt);
-
-        if (user.password !== hashedPassword) {
+        if (!comparePassword) {
             return res.status(401).json({ success: false, error: 'Invalid password' });
         }
 
@@ -70,6 +64,7 @@ app.post('/login', async (req, res) => {
 // Signup user
 app.post('/signup', async (req, res) => {
     let { email, password, name, phone, address } = req.body;
+    //const image = req.file;
 
     try {
         // Check if user already exists
@@ -78,12 +73,9 @@ app.post('/signup', async (req, res) => {
             return res.status(409).json({ success: false, error: 'User already exists' });
         }
 
-        const plainPassword = password;
-        const saltRounds = 10;
-        const salt = await bcrypt.genSalt(saltRounds);
-        const hashedPassword = await bcrypt.hash(plainPassword, salt);
-        password=hashedPassword;
+        password = await encriptText(password);
 
+       // const imagePath = image.path
 
         // Create new user
         const newUser = {
@@ -92,6 +84,7 @@ app.post('/signup', async (req, res) => {
             name,
             phone,
             address,
+           // imagePath,
         };
 
         const result = await db.collection(COLLECTION_NAME).insertOne(newUser);
