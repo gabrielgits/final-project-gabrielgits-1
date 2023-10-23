@@ -2,16 +2,16 @@ import { getFoodList } from '../../core/network';
 import { useEffect, useState, useContext } from 'react';
 import { SafeAreaView, FlatList, Pressable, Text, View, TextInput } from 'react-native';
 import styles from '../../styles/appStyles';
-import Food from './Food';
+import Food from '../Order/Food';
 import { useNavigation } from '@react-navigation/native';
 import GlobalContext from '../../core/context';
 
-export default function FoodList() {
+export default function AddCart() {
 
     const { globalState, setGlobalState } = useContext(GlobalContext); // get token
 
     const [searchText, setSearchText] = useState('');
-    const [foods, setFood] = useState([]);
+    const [cart, setCart] = useState([]);
     const [refresh, setRefresh] = useState(false); //handle Food list refresh by this state change
     const navigation = useNavigation();
 
@@ -19,58 +19,33 @@ export default function FoodList() {
         setRefresh(!refresh)
     }
 
-    useEffect(() => {
-        try {
-            async function getData() {
-                const ret = await getFoodList(globalState.login.token, globalState.login.userId);
-                //console.log(ret.data.data)
-                if (ret && ret.success) {
-                    setFood(ret.data);
-                    setGlobalState({...globalState, foods: ret.data})
-                }
-            }
-            getData()
-
-        } catch (error) {
-
-        }
-    }, [refresh])
-
     const handleAddFood = () => {
         navigation.navigate('addfood', { onRefresh })
     }
-
-    let myfoodlist = []
-
-    if (searchText !== "" && foods.length>0) {
-        myfoodlist = [...foods].filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase()));
-    } else {
-        myfoodlist = foods;
-    }
-
 
     return (
         <SafeAreaView
             style={styles.root}>
             <View style={{ flex: 0.2 }}>
-                <Text style={styles.title}> Foods InStock</Text>
+                <Pressable style={styles.cartButton} >
+                    <Text style={styles.submitButtonText} onPress={handleAddFood} >Cart(0)</Text>
+                </Pressable>
+                <Text style={styles.title}> My Cart</Text>
             </View >
             <View style={{ flex: 0.8 }}>
                 <TextInput
                     style={styles.input}
-                    placeholder='Live Search'
+                    placeholder='Customer Name'
                     onChangeText={(text) => setSearchText(text)}
                     value={searchText}>
                 </TextInput>
-                <Pressable style={styles.submitButton} >
-                    <Text style={styles.submitButtonText} onPress={handleAddFood} >Add Food</Text>
-                </Pressable>
-                <FlatList
-                    data={myfoodlist}
+                {searchText.length>0 && <FlatList
+                    data={globalState.foods}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item, index }) => (<Food food={{ ...item, index }} onRefresh={onRefresh} />
                     )}
-                />
+                />}
+                
             </View>
         </SafeAreaView>
 
