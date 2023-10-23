@@ -42,7 +42,7 @@ export default function FoodList() {
     let myfoodlist = []
 
     if (searchText !== "" && foods.length>0) {
-        myfoodlist = [...foods].filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase()));;
+        myfoodlist = [...foods].filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase()));
     } else {
         myfoodlist = foods;
     }
