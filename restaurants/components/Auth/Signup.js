@@ -7,6 +7,7 @@ import { signup } from '../../core/network';
 import GlobalContext from '../../core/context';
 import { setLocalUser } from '../../core/storage';
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 
 
 export default function Signup() {
@@ -29,16 +30,28 @@ export default function Signup() {
             aspect: [4, 3],
             quality: 1,
         });
-        if (!result.canceled) {
-            //setState({ ...state, image: result.assets[0].uri });
-        }
 
+        if (!result.canceled) {
+            const imageUri = result.assets[0].uri;
+            setState({ ...state, image: result.assets[0].uri });
+            const directory = FileSystem.documentDirectory + 'Pictures/';
+            const filename = 'image_' + Date.now() + '.jpg';
+            const fileUri = directory + filename;
+            try {
+                await FileSystem.copyAsync({
+                    from: imageUri,
+                    to: fileUri,
+                });
+                setState({ ...state, image: fileUri });
+            } catch (error) {
+                console.error('Error saving the image:', error);
+            }
+        }
     };
 
     const signupHandle = async () => {
         const obj = await signup({ ...state });
         if (obj && obj.success) {
-            // obj = {success: true, token, userId};;
             await setLocalUser(obj);
             setGlobalState({ ...globalState, login: obj });
         } else {

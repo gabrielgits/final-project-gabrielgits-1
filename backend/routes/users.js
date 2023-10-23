@@ -4,7 +4,6 @@ const { ObjectId } = require("mongodb");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
-//const cors = require('cors');
 const PRIVATE_KEY = "Restaurant-App-2023";
 
 let db = null;
@@ -26,8 +25,6 @@ function auth(req, res, next) {
       .send({ success: false, error: "Please provide Authorization" });
   }
   const arr = req.headers.authorization.split(" ");
-  //console.log('route: ', arr)
-
   if (arr.length !== 2) {
     res.status(202).send({ success: false, error: "Please use Bearer scheme" });
   }
