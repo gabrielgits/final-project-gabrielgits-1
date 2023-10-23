@@ -72,7 +72,6 @@ export default function Signup() {
                     borderColor: 'gray',
                     padding: 20,
                 }} >
-
                     <View style={{
                         justifyContent: "center",
                         alignItems: "center",

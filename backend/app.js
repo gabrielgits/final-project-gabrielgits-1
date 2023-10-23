@@ -49,14 +49,14 @@ app.post('/login', async (req, res) => {
 
 // Signup user
 app.post('/signup', async (req, res) => {
-    let { email, password, name, phone, address, imagePath } = req.body;
+    let { email, password, name, phone, address, image } = req.body;
     try {
         const existingUser = await db.collection(COLLECTION_NAME).findOne({ email });
         if (existingUser) {
             return res.status(409).json({ success: false, error: 'User already exists' });
         }
         if (!imagePath){
-            imagePath = 'none';
+            image = 'none';
         }
         password = await encriptText(password);
 
