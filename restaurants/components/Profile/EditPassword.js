@@ -3,9 +3,8 @@ import React, { useContext, useState } from 'react';
 import styles from '../../styles/general';
 import { Button, View, TextInput, Text, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { signup } from '../../core/network';
 import GlobalContext from '../../core/context';
-import { setLocalUser } from '../../core/storage';
+import { changePassword } from '../../core/network';
 
 export default function EditPassword() {
     const [state, setState] = useState({
@@ -13,12 +12,12 @@ export default function EditPassword() {
         password: "",
         confirmPassword: "",
     })
-    const { globalState, setGlobalState } = useContext(GlobalContext);
+    const { globalState } = useContext(GlobalContext);
 
     const navigation = useNavigation();
 
     const updateHandle = async () => {
-        const obj = await changePassword(globalState.token, globalState.userId, state);
+        const obj = await changePassword(globalState.login.token, globalState.login.userId, state);
         if (obj.success) {
             navigation.goBack();
             return;
