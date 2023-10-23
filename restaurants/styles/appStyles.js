@@ -20,6 +20,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 3,
   },
+  inputshort: {
+    padding: 5,
+    marginLeft:30,
+    width:40,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 3,
+  },
   infoHeader: {
     padding: 20
   },
@@ -47,6 +55,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: "#0066cc",
     borderRadius: 4,
+    marginVertical: 10,
+    marginHorizontal: 20,
+  },
+  cartButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: "#0066cc",
+    borderRadius: 50,
+    width:100,
     marginVertical: 10,
     marginHorizontal: 20,
   },

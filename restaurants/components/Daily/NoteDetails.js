@@ -15,7 +15,6 @@ function NoteDetails({ route, navigation }) {
       <Text style={styles.header}>Header: {note.header}</Text>
       <Text style={styles.date}>Date: {noteDate.toDateString()}</Text>
       <Text style={styles.comment}>Comment: {note.comment}</Text>
-      {/* <Button title="Delete" onPress={deleteNote} style={styles.button} /> */}
       <Button title="Go Back"
         onPress={() => navigation.navigate('notelist')}
         style={styles.button}

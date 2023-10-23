@@ -8,12 +8,15 @@ import { getLocalUser } from './core/storage';
 import AuthScreen from './screens/AuthScreen';
 import GlobalContext from './core/context';
 import ProfileScreen from "./screens/ProfileScreen";
+import OrderScreen from "./screens/OrderScreen";
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
 
   const [globalState, setGlobalState] = useState({
+    foods:[],
+    cart:[],
     login: null // login = {success: true, token, userId};
   });
 
@@ -64,6 +67,20 @@ export default function App() {
                   size={24}
                   color={color}
                   name={"note-plus"}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="cart"
+            component={OrderScreen}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ color }) => (
+                <MaterialCommunityIcons
+                  size={24}
+                  color={color}
+                  name={"cart"}
                 />
               ),
             }}
