@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from "react";
 import {
   SafeAreaView,
@@ -6,7 +5,7 @@ import {
   Text,
   View,
   StyleSheet,
-  TouchableHighlight,
+  TouchableOpacity,
 } from "react-native";
 import ViewDaily from "./ViewDaily";
 import { useNavigation } from "@react-navigation/native";
@@ -17,11 +16,10 @@ export default function DailyNotes() {
   const [notes, setNotes] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const navigation = useNavigation();
-  const { globalState } = useContext(GlobalContext);
-  const token = globalState.login.token
-  const userId = globalState.login.userId
-  
-  
+  const { globalState } = useContext(GlobalContext); 
+  const token = globalState.login.token;
+  const userId = globalState.login.userId;
+
   const onRefresh = () => {
     setRefresh(!refresh);
   };
@@ -30,8 +28,6 @@ export default function DailyNotes() {
     async function fetchData() {
       try {
         const data = await getDailyNotes(token, userId);
-        // console.log("Token" , token)
-        // console.log(data);
         setNotes(data);
       } catch (error) {
         console.error("Error fetching daily notes:", error);
@@ -45,47 +41,48 @@ export default function DailyNotes() {
   };
 
   return (
-    <SafeAreaView style={styles.root}>
-      <View style={{ flex: 0.2 }}>
-        <Text style={styles.title}>Daily Notes</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Daily Notes</Text>
       </View>
-      <View style={{ flex: 0.8 }}>
-        <TouchableHighlight style={styles.submitButton}>
-          <Text style={styles.submitButtonText} onPress={handleAddNotes}>
-            Add Daily Notes
-          </Text>
-        </TouchableHighlight>
-
-        <FlatList
-          data={notes}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item, index }) => (
-            <ViewDaily note={{ ...item, index }} onRefresh={onRefresh} />
-          )}
-        />
-      </View>
+      <TouchableOpacity onPress={handleAddNotes} style={styles.addButton}>
+        <Text style={styles.addButtonLabel}>Add Daily Notes</Text>
+      </TouchableOpacity>
+      <FlatList
+        data={notes}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item, index }) => (
+          <ViewDaily note={{ ...item, index }} onRefresh={onRefresh} />
+        )}
+      />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  root: {
+  container: {
     flex: 1,
-    padding: 20,
+    backgroundColor: "#f0f0f0",
   },
-  title: {
+  header: {
+    padding: 16,
+    backgroundColor: "#3498db",
+  },
+  headerText: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 10,
+    color: "#fff",
   },
-  submitButton: {
-    backgroundColor: "blue",
+
+  addButton: {
+    backgroundColor: "#27ae60",
     padding: 10,
-    marginVertical: 10,
     borderRadius: 5,
+    margin: 16,
   },
-  submitButtonText: {
-    color: "white",
+  addButtonLabel: {
+    color: "#fff",
     textAlign: "center",
+    fontWeight: "bold",
   },
 });
