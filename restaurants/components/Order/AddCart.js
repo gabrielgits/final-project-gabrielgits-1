@@ -4,7 +4,6 @@ import styles from '../../styles/appStyles';
 
 const AddCart = ({ food, foodAddToCart }) => {
 
-
     const handleAddCart = () => {
         food.qty=0;   
         foodAddToCart(food);

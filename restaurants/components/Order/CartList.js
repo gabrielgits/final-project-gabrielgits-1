@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { SafeAreaView, FlatList, Pressable, Text, View, TextInput } from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native'; // Import useFocusEffect
+import { useNavigation, useFocusEffect } from '@react-navigation/native'; 
 import styles from '../../styles/appStyles';
 import AddCart from './AddCart';
 import GlobalContext from '../../core/context';
@@ -37,7 +37,6 @@ export default function CartList() {
         }
     }
 
-    // Use useFocusEffect to clear the cart when returning from 'reviewcart'
     useFocusEffect(
         React.useCallback(() => {
             if (navigation.isFocused()) {

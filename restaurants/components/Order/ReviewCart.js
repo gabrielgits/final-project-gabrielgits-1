@@ -16,7 +16,6 @@ export default function ReviewCart({ route: { params } }) {
         totalfee: 0
     });
 
-    //console.log(state.custumerName)
     const navigation = useNavigation();
 
     const grandTotal = state.cart.reduce((total, food) => total + food.price * food.qty, 0);

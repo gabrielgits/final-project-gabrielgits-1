@@ -21,6 +21,7 @@ const Food = ({ food, onRefresh }) => {
     }
 
     const handleDelete = async () => {
+        // for mobile device
         // Alert.alert('Alert Title', 'My Alert Msg', [
         //   {
         //     text: 'Cancel',
@@ -30,12 +31,13 @@ const Food = ({ food, onRefresh }) => {
         //     text: 'OK',
         //     onPress: async () => {
         //       await deleteFood(_id, globalState.login.token, globalState.login.userId);
-        //       onRefresh()
+        //       onRefresh();
+        //       navigation.navigate('foodlist');
         //     }
         //   },
         // ]);
 
-        console.log(_id)
+        //console.log(_id)
 
         await deleteFood(_id, globalState.login.token, globalState.login.userId);
         onRefresh();
@@ -65,7 +67,8 @@ const Food = ({ food, onRefresh }) => {
                         style={styles.button}
                         underlayColor="#5398DC">
                         <Text style={styles.buttonText}>Edit</Text>
-                    </TouchableHighlight><TouchableHighlight
+                    </TouchableHighlight>
+                    <TouchableHighlight
                         onPress={handleDelete}
                         style={styles.button}
                         underlayColor="#5398DC">

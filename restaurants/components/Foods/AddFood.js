@@ -5,9 +5,9 @@ import styles from "../../styles/appStyles";
 import { addFood } from '../../core/network';
 import GlobalContext from "../../core/context";
 
-export default function AddFood() {
+export default function AddFood({ route: { params } }) {
 
-    const {globalState, setGlobalState}=useContext(GlobalContext);
+    const { globalState, setGlobalState } = useContext(GlobalContext);
 
     const navigation = useNavigation();
     const [state, setState] = useState(
@@ -19,12 +19,10 @@ export default function AddFood() {
             image: ""
         })
 
-    const route = useRoute();
-    const { onRefresh } = route.params;
+    const { onRefresh } = params;
 
     const handleSave = async () => {
         try {
-            // Validate input variables
             if (!state.name || typeof state.name !== 'string') {
                 Alert.alert('Error', 'Name must be a non-empty string');
                 return;
@@ -42,10 +40,10 @@ export default function AddFood() {
 
             const ret = await addFood(state, globalState.login.token, globalState.login.userId);
 
-            onRefresh(); // reload FoodList component            
+            onRefresh();
             navigation.goBack();
         } catch (error) {
-            // setGlobalState({...globalstate, errorMessage:'Unable to save data'})
+
         }
     }
     return (
@@ -71,13 +69,13 @@ export default function AddFood() {
                 value={state.origin}
                 onChangeText={(text) => setState({ ...state, origin: text })}
             ></TextInput>
-            <TextInput
+            {/* <TextInput
                 style={styles.input}
-                placeholder="mm-dd-yyyy"
+                placeholder="yyyy-mm-dd"
                 keyboardType="numeric"
                 value={state.date}
                 onChangeText={(text) => setState({ ...state, date: text })}
-            ></TextInput>
+            ></TextInput> */}
             <TextInput
                 style={styles.input}
                 placeholder="image"
