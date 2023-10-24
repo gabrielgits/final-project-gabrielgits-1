@@ -5,9 +5,9 @@ import styles from "../../styles/appStyles";
 import { addFood } from '../../core/network';
 import GlobalContext from "../../core/context";
 
-export default function AddFood() {
+export default function AddFood({ route: { params } }) {
 
-    const {globalState, setGlobalState}=useContext(GlobalContext);
+    const { globalState, setGlobalState } = useContext(GlobalContext);
 
     const navigation = useNavigation();
     const [state, setState] = useState(
@@ -19,8 +19,7 @@ export default function AddFood() {
             image: ""
         })
 
-    const route = useRoute();
-    const { onRefresh } = route.params;
+    const { onRefresh } = params;
 
     const handleSave = async () => {
         try {
@@ -41,10 +40,10 @@ export default function AddFood() {
 
             const ret = await addFood(state, globalState.login.token, globalState.login.userId);
 
-            onRefresh();             
+            onRefresh();
             navigation.goBack();
         } catch (error) {
-            
+
         }
     }
     return (
