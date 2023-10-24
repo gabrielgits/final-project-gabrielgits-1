@@ -9,7 +9,7 @@ import GlobalContext from '../../core/context';
 
 const ViewDaily = ({ note, onRefresh }) => {
     const { index, _id, header, date, comment } = note;
-
+const [refresh, setRefresh] = useState(false); 
     const navigation = useNavigation();
     const { globalState } = useContext(GlobalContext);
     const token = globalState.login.token
@@ -24,24 +24,28 @@ const ViewDaily = ({ note, onRefresh }) => {
     }
 
     const handleDelete = async () => {
-        confirm('Confirm Delete', 'Are you sure you want to delete this note?', [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-          },
-          {
-            text: 'OK',
-            onPress: async () => {
-              console.log(token, userId, _id)
-              const isDeleted = await deleteNote(token, userId, _id);
-              if (isDeleted) {
-                onRefresh();
-              } else {
-                console.error('Failed to delete note.');
-              }
-            },
-          },
-        ]);
+        // confirm('Confirm Delete', 'Are you sure you want to delete this note?', [
+        //   {
+        //     text: 'Cancel',
+        //     onPress: () => console.log('Cancel Pressed'),
+        //   },
+        //   {
+        //     text: 'OK',
+        //     onPress: async () => {
+        //        await deleteNote(token, userId, _id);
+        //       if (isDeleted) {
+        //         onRefresh();
+        //         navigation.navigate('notelist');
+              // } else {
+              //   console.error('Failed to delete note.');
+              // }
+        //     },
+        //   },
+        // ]);
+
+        await deleteNote(token, userId, _id);
+        onRefresh();
+        navigation.navigate('notelist');
       };
     return (
         <View

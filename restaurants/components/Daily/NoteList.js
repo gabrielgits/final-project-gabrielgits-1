@@ -21,6 +21,7 @@ export default function DailyNotes() {
   const token = globalState.login.token
   const userId = globalState.login.userId
   
+  
   const onRefresh = () => {
     setRefresh(!refresh);
   };
