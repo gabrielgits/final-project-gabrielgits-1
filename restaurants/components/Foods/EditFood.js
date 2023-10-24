@@ -24,7 +24,6 @@ export default function EditFood() {
 
     const handleSubmit = async () => {
         try {
-            //console.log(state)
             await editFood(state, globalState.login.token, globalState.login.userId);
             onRefresh();
             navigation.goBack()

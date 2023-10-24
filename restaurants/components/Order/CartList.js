@@ -37,7 +37,6 @@ export default function CartList() {
         }
     }
 
-    // Use useFocusEffect to clear the cart when returning from 'reviewcart'
     useFocusEffect(
         React.useCallback(() => {
             if (navigation.isFocused()) {

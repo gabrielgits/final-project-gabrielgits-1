@@ -24,6 +24,8 @@ const [refresh, setRefresh] = useState(false);
     }
 
     const handleDelete = async () => {
+
+        // for mobile device
         // confirm('Confirm Delete', 'Are you sure you want to delete this note?', [
         //   {
         //     text: 'Cancel',

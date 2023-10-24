@@ -24,7 +24,6 @@ export default function AddFood() {
 
     const handleSave = async () => {
         try {
-            // Validate input variables
             if (!state.name || typeof state.name !== 'string') {
                 Alert.alert('Error', 'Name must be a non-empty string');
                 return;
@@ -42,10 +41,10 @@ export default function AddFood() {
 
             const ret = await addFood(state, globalState.login.token, globalState.login.userId);
 
-            onRefresh(); // reload FoodList component            
+            onRefresh();             
             navigation.goBack();
         } catch (error) {
-            // setGlobalState({...globalstate, errorMessage:'Unable to save data'})
+            
         }
     }
     return (

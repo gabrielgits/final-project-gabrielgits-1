@@ -30,8 +30,6 @@ export default function DailyNotes() {
     async function fetchData() {
       try {
         const data = await getDailyNotes(token, userId);
-        // console.log("Token" , token)
-        // console.log(data);
         setNotes(data);
       } catch (error) {
         console.error("Error fetching daily notes:", error);

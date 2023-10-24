@@ -102,7 +102,6 @@ export async function getFoodList(token, userId) {
       },
     });
     const obj = await ret.json();
-    // console.log('network: ', obj)
     return obj;
   } catch (error) {
     throw error;
@@ -197,7 +196,6 @@ export async function getDailyNotes(token, userId) {
 
     if (response.ok) {
       const obj = await response.json();
-      console.log(obj);
       return obj.data;
     } else {
       console.log("Request failed with status:", response.status);
@@ -264,7 +262,6 @@ export async function addCustomer(customer, token, userId) {
       },
     });
     const obj = await ret.json();
-    //console.log(obj)
     return { success: true };
   } catch (error) {
     throw error;
@@ -308,7 +305,6 @@ export async function addOrder(orderId, orders, token, userId) {
       },
     });
     const obj = await ret.json();
-    console.log(obj)
     return { success: true, response: obj };
   } catch (error) {
     throw error;

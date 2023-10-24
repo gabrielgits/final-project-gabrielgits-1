@@ -21,6 +21,7 @@ const Food = ({ food, onRefresh }) => {
     }
 
     const handleDelete = async () => {
+        // for mobile device
         // Alert.alert('Alert Title', 'My Alert Msg', [
         //   {
         //     text: 'Cancel',

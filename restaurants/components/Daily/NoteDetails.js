@@ -7,7 +7,6 @@ function NoteDetails({ route, navigation }) {
     navigation.navigate('notelist');
   };
 
-  // Ensure that note.date is a Date object or parse it into a Date object
   const noteDate = new Date(note.date);
 
   return (

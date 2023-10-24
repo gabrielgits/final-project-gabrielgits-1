@@ -23,7 +23,6 @@ export default function FoodList() {
         try {
             async function getData() {
                 const ret = await getFoodList(globalState.login.token, globalState.login.userId);
-                //console.log(ret.data.data)
                 if (ret && ret.success) {
                     setFood(ret.data);
                     setGlobalState({...globalState, foods: ret.data})
