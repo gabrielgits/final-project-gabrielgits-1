@@ -1,14 +1,12 @@
-import { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { SafeAreaView, FlatList, Pressable, Text, View, TextInput } from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native'; // Import useFocusEffect
 import styles from '../../styles/appStyles';
 import AddCart from './AddCart';
-import { useNavigation } from '@react-navigation/native';
 import GlobalContext from '../../core/context';
 
 export default function CartList() {
-
     const { globalState, setGlobalState } = useContext(GlobalContext);
-
     const [searchText, setSearchText] = useState('');
     const [state, setState] = useState({
         cart: [],
@@ -16,9 +14,8 @@ export default function CartList() {
     });
     const navigation = useNavigation();
 
-
     const removeCart = () => {
-        setState({ ...state, cart: [] })
+        setState({ ...state, cart: [] });
     }
 
     const handleReviewCart = () => {
@@ -40,10 +37,17 @@ export default function CartList() {
         }
     }
 
+    // Use useFocusEffect to clear the cart when returning from 'reviewcart'
+    useFocusEffect(
+        React.useCallback(() => {
+            if (navigation.isFocused()) {
+                removeCart();
+            }
+        }, [])
+    );
 
     return (
-        <SafeAreaView
-            style={styles.root}>
+        <SafeAreaView style={styles.root}>
             <View style={{ flex: 0.2 }}>
                 <Pressable style={styles.cartButton} >
                     <Text style={styles.submitButtonText} onPress={handleReviewCart} >Cart({state.cart.length})</Text>
@@ -63,11 +67,7 @@ export default function CartList() {
                     renderItem={({ item, index }) => (<AddCart food={{ ...item, index }} foodAddToCart={foodAddToCart} />
                     )}
                 />
-
             </View>
         </SafeAreaView>
-
     )
 }
-
-
