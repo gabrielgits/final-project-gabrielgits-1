@@ -16,8 +16,12 @@ export default function CartList() {
     });
     const navigation = useNavigation();
 
+    const removeCart=()=>{
+        setState({...state, cart:[]})
+    }
+
     const handleReviewCart = () => {
-        navigation.navigate('reviewcart', { cart: state.cart, custumerName: searchText });
+        navigation.navigate('reviewcart', { cart: state.cart, custumerName: searchText, empltyCart: removeCart });
     }
 
     const foodAddToCart = (food) => {

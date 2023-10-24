@@ -30,29 +30,37 @@ export default function ReviewCart({ route: { params } }) {
                 await addOrder(ret1.orderId, state.cart, globalState.login.token, globalState.login.userId)
             }
         }
+
+        params.empltyCart()
         navigation.goBack()
     }
 
-        return (
-            <View style={styles.container}>
-                <View style={styles.infoHeader}>
-                    <View>
-                        <Text style={styles.title}>Customer: {params.custumerName}</Text>
-                    </View>
-                    <View>
-                        <FlatList
-                            data={state.cart}
-                            keyExtractor={(item, index) => index.toString()}
-                            renderItem={({ item, index }) => (<CartItem food={{ ...item, index }} />
-                            )}
-                        />
-                    </View>
-                    <View>
-                        <Pressable style={styles.submitButton} >
-                            <Text style={styles.submitButtonText} onPress={handleSubmit} >Save</Text>
-                        </Pressable>
-                    </View>
+    const foodRemoveFromCart = (food) => {
+        const updatedCart = state.cart.filter((item) => item._id !== food._id);
+        setState({ ...state, cart: updatedCart });
+    };
+
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.infoHeader}>
+                <View>
+                    <Text style={styles.title}>Customer: {params.custumerName}</Text>
+                </View>
+                <View>
+                    <FlatList
+                        data={state.cart}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item, index }) => (<CartItem food={{ ...item, index }} foodRemoveFromCart={foodRemoveFromCart} />
+                        )}
+                    />
+                </View>
+                <View>
+                    <Pressable style={styles.submitButton} >
+                        <Text style={styles.submitButtonText} onPress={handleSubmit} >Save</Text>
+                    </Pressable>
                 </View>
             </View>
-        );
-    }
+        </View>
+    );
+}

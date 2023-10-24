@@ -15,8 +15,7 @@ const Tab = createBottomTabNavigator();
 export default function App() {
 
   const [globalState, setGlobalState] = useState({
-    foods:[],
-    cart:[],
+    foods: [],
     login: null // login = {success: true, token, userId};
   });
 

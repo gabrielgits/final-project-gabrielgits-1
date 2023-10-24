@@ -1,15 +1,14 @@
 import React, { useState, useContext } from 'react';
-import { Alert, View, Text,TextInput, TouchableHighlight } from 'react-native';
+import { Alert, View, Text, TextInput, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from '../../styles/appStyles';
 import GlobalContext from '../../core/context';
 
-const CartItem = ({ food }) => {
+const CartItem = ({ food, foodRemoveFromCart }) => {
     const { index, _id, name, price, qty } = food;
-    const { globalState, setGlobalState } = useContext(GlobalContext);
-    const navigation = useNavigation();
-    const handleRemove = () => {    
-        
+
+    const handleRemove = (food) => {
+        foodRemoveFromCart(food)
     }
 
     return (
@@ -20,7 +19,7 @@ const CartItem = ({ food }) => {
                     <Text>Name: {name}</Text>
                     <Text>Price: {price}</Text>
                     <Text>Quantity: {qty}</Text>
-                </View>                
+                </View>
                 <View style={styles.edges}>
                     <TouchableHighlight
                         onPress={handleRemove}
