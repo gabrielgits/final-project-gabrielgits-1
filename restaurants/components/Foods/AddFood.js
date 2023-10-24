@@ -70,13 +70,13 @@ export default function AddFood() {
                 value={state.origin}
                 onChangeText={(text) => setState({ ...state, origin: text })}
             ></TextInput>
-            <TextInput
+            {/* <TextInput
                 style={styles.input}
-                placeholder="mm-dd-yyyy"
+                placeholder="yyyy-mm-dd"
                 keyboardType="numeric"
                 value={state.date}
                 onChangeText={(text) => setState({ ...state, date: text })}
-            ></TextInput>
+            ></TextInput> */}
             <TextInput
                 style={styles.input}
                 placeholder="image"
