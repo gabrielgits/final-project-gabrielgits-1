@@ -414,11 +414,15 @@ router.post("/:userId/orders", async (req, res) => {
 // Add Foods to Order
 router.put("/:userId/orders/:orderId/foods", async (req, res) => {
   try {
-    const { foods } = req.body;
+    
+    const foods  = req.body;
     const userId = req.params.userId;
     const orderId = req.params.orderId;
 
-    const result = await db.collection(COLLECTION_NAME).updateOne(
+   // console.log(foods)
+
+    // Add foods to the order
+    const addFoodsResult = await db.collection(COLLECTION_NAME).updateOne(
       {
         _id: new ObjectId(userId),
         "orders._id": new ObjectId(orderId),
@@ -426,8 +430,8 @@ router.put("/:userId/orders/:orderId/foods", async (req, res) => {
       { $push: { "orders.$.foods": { $each: foods } } }
     );
 
-    // change order status
-    result = await db.collection(COLLECTION_NAME).updateOne(
+    // Change the order status to "completed"
+    const updateStatusResult = await db.collection(COLLECTION_NAME).updateOne(
       {
         _id: new ObjectId(userId),
         "orders._id": new ObjectId(orderId),
@@ -435,11 +439,12 @@ router.put("/:userId/orders/:orderId/foods", async (req, res) => {
       { $set: { "orders.$.orderstatus": "completed" } }
     );
 
-    res.status(200).send({ success: true, data: result });
+    res.status(200).send({ success: true, data: { addFoodsResult, updateStatusResult } });
   } catch (error) {
     res.status(500).send({ success: false, error: error.message });
   }
 });
+
 
 // Get Orders
 router.get("/:userId/orders", async (req, res) => {

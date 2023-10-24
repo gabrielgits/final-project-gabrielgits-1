@@ -102,7 +102,7 @@ export async function getFoodList(token, userId) {
       },
     });
     const obj = await ret.json();
-   // console.log('network: ', obj)
+    // console.log('network: ', obj)
     return obj;
   } catch (error) {
     throw error;
@@ -271,19 +271,45 @@ export async function addCustomer(customer, token, userId) {
   }
 }
 
-export async function addOrder(order, token, userId) {
+export async function findCustomer(customer, token, userId) {
   try {
     const ret = await fetch(constServer + '/users/' + userId + '/orders', {
-      method: "POST",
-      body: JSON.stringify(order),
+      method: "GET",
       headers: {
         "content-type": "application/json",
         "Authorization": `Bearer ${token}`
       },
     });
     const obj = await ret.json();
-    //console.log(obj)
-    return { success: true };
+
+    const found = obj.data.find((i) => i.customer === customer)
+
+    if (found) {
+      return { success: true, orderId: found._id };
+    } else {
+      return { success: false };
+    }
+
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export async function addOrder(orderId, orders, token, userId) {
+  try {
+    console.log(orderId, token, userId, orders)
+    const ret = await fetch(constServer + '/users/' + userId + '/orders/'+orderId+'/foods', {
+      method: "PUT",
+      body: JSON.stringify(orders),
+      headers: {
+        "content-type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+    });
+    const obj = await ret.json();
+    console.log(obj)
+    return { success: true, response: obj };
   } catch (error) {
     throw error;
   }
