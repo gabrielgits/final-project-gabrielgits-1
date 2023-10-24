@@ -6,6 +6,7 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
+
 } from "react-native";
 import ViewDaily from "./ViewDaily";
 import { useNavigation } from "@react-navigation/native";
