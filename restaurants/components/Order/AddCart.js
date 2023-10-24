@@ -6,7 +6,7 @@ const AddCart = ({ food, foodAddToCart }) => {
 
 
     const handleAddCart = () => {
-        food.qty=1;   
+        food.qty=0;   
         foodAddToCart(food);
     }
 
