@@ -1,25 +1,27 @@
-import React, { useContext } from 'react';
+import React, { useContext,useState, useEffect } from 'react';
 import { View, Text, Pressable, FlatList } from 'react-native'
 import styles from '../../styles/appStyles';
 import CartItem from './CartItem';
 import GlobalContext from '../../core/context';
+import { useNavigation } from '@react-navigation/native';
 
-export default function ReviewCart() {
+export default function ReviewCart({route: {params}}) {
 
-    const { globalState, setGlobalState } = useContext(GlobalContext);
+    const [state, setState] = useState({
+        cart: params.cart,
+        custumerName: params.custumerName,
+    });
 
     const handleSubmit=()=>{
 
     }
-
-    console.log(globalState.cart)
 
     return (
         <View style={styles.container}>
             <View style={styles.infoHeader}>                
                 <View>
                     <FlatList
-                        data={globalState.cart}
+                        data={state.cart}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item, index }) => (<CartItem food={{ ...item, index }} />
                         )}

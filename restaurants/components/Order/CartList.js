@@ -10,16 +10,24 @@ export default function CartList() {
     const { globalState, setGlobalState } = useContext(GlobalContext); 
 
     const [searchText, setSearchText] = useState('');
-    const [cart, setCart] = useState([]);
-    const [refresh, setRefresh] = useState(false); //handle Food list refresh by this state change
+    const [state, setState] = useState({
+        cart: [],
+        custumerName: '',
+    });
     const navigation = useNavigation();
 
-    const onRefresh = () => {
-        setRefresh(!refresh)
+    const handleReviewCart = () => {
+        navigation.navigate('reviewcart', { cart: state.cart, custumerName: state.custumerName });
     }
 
-    const handleReviewCart = () => {
-        navigation.navigate('reviewcart')
+    const foodAddToCart = (food) => {
+        const foodFind = state.cart.find((item) => item._id === food._id);
+        if (foodFind) {
+            foodFind.qty = foodFind.qty + 1;
+            setState({ ...state, cart: [...state.cart, foodFind] });
+            return;
+        }
+        setState({ ...state, cart: [...state.cart, food] });
     }
 
     return (
@@ -27,7 +35,7 @@ export default function CartList() {
             style={styles.root}>
             <View style={{ flex: 0.2 }}>
                 <Pressable style={styles.cartButton} >
-                    <Text style={styles.submitButtonText} onPress={handleReviewCart} >Cart(0)</Text>
+                    <Text style={styles.submitButtonText} onPress={handleReviewCart} >Cart({state.cart.length})</Text>
                 </Pressable>
                 <Text style={styles.title}> My Cart</Text>
             </View >
@@ -38,12 +46,12 @@ export default function CartList() {
                     onChangeText={(text) => setSearchText(text)}
                     value={searchText}>
                 </TextInput>
-                {searchText.length>0 && <FlatList
+                 <FlatList
                     data={globalState.foods}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item, index }) => (<AddCart food={{ ...item, index }} onRefresh={onRefresh}/>
+                    renderItem={({ item, index }) => (<AddCart food={{...item, index}} foodAddToCart={foodAddToCart}/>
                     )}
-                />}
+                />
                 
             </View>
         </SafeAreaView>

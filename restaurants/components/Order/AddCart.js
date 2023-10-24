@@ -4,48 +4,21 @@ import { useNavigation } from '@react-navigation/native';
 import styles from '../../styles/appStyles';
 import GlobalContext from '../../core/context';
 
-const AddCart = ({ food, onRefresh }) => {
-    const { index, _id, name, price } = food;
-    const { globalState, setGlobalState } = useContext(GlobalContext);
+const AddCart = ({ food, foodAddToCart }) => {
 
-    const navigation = useNavigation();
-    const [qtyText, setQtyText] = useState('');
-    //console.log(food)
 
     const handleAddCart = () => {
-
-        food.qty=qtyText;   
-        //console.log(food) 
-        const newCart = [...globalState.cart, food];      
-        setGlobalState({...globalState, cart: newCart})
-        const filtredFoods=[...globalState.foods];
-        console.log(filtredFoods)
-
-        const flist=filtredFoods.filter((i)=>i._id!==food._id)
-        //console.log(flist)
-
-        setGlobalState({...globalState, foods: flist})
-
-        onRefresh();
-        console.log(globalState.cart)
+        food.qty=1;   
+        foodAddToCart(food);
     }
 
     return (
         <View
-            style={{ backgroundColor: index % 2 === 0 ? 'white' : '#F3F3F7' }}>
+            style={{ backgroundColor: food.index % 2 === 0 ? 'white' : '#F3F3F7' }}>
             <View style={styles.row}>
                 <View style={styles.name}>
-                    <Text>Name: {name}</Text>
-                    <Text>Price: {price}</Text>
-                </View>
-                <View>
-                    <TextInput
-                        style={styles.inputshort}
-                        placeholder='Qty'
-                        keyboardType="numeric"
-                        onChangeText={(text) => setQtyText(text)}
-                        value={qtyText}>
-                    </TextInput>
+                    <Text>Name: {food.name}</Text>
+                    <Text>Price: {food.price}</Text>
                 </View>
                 <View style={styles.edges}>
                     <TouchableHighlight
