@@ -13,10 +13,13 @@ export default function ReviewCart({ route: { params } }) {
     const [state, setState] = useState({
         cart: params.cart,
         custumerName: params.custumerName,
+        totalfee: 0
     });
 
     //console.log(state.custumerName)
     const navigation = useNavigation();
+
+    const grandTotal = state.cart.reduce((total, food) => total + food.price * food.qty, 0);
 
     const handleSubmit = async () => {
 
@@ -38,6 +41,9 @@ export default function ReviewCart({ route: { params } }) {
     const foodRemoveFromCart = (food) => {
         const updatedCart = state.cart.filter((item) => item._id !== food._id);
         setState({ ...state, cart: updatedCart });
+        if (state.cart.length === 0) {
+            params.empltyCart()
+        }
     };
 
 
@@ -46,6 +52,7 @@ export default function ReviewCart({ route: { params } }) {
             <View style={styles.infoHeader}>
                 <View>
                     <Text style={styles.title}>Customer: {params.custumerName}</Text>
+                    <Text style={styles.title}>Total Amount: {grandTotal}</Text>
                 </View>
                 <View>
                     <FlatList

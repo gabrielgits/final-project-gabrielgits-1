@@ -16,8 +16,9 @@ export default function CartList() {
     });
     const navigation = useNavigation();
 
-    const removeCart=()=>{
-        setState({...state, cart:[]})
+
+    const removeCart = () => {
+        setState({ ...state, cart: [] })
     }
 
     const handleReviewCart = () => {

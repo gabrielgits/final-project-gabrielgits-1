@@ -7,7 +7,7 @@ import GlobalContext from '../../core/context';
 const CartItem = ({ food, foodRemoveFromCart }) => {
     const { index, _id, name, price, qty } = food;
 
-    const handleRemove = (food) => {
+    const handleRemove = () => {
         foodRemoveFromCart(food)
     }
 
@@ -19,6 +19,7 @@ const CartItem = ({ food, foodRemoveFromCart }) => {
                     <Text>Name: {name}</Text>
                     <Text>Price: {price}</Text>
                     <Text>Quantity: {qty}</Text>
+                    <Text>Total: {price*qty}</Text>
                 </View>
                 <View style={styles.edges}>
                     <TouchableHighlight
